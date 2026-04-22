@@ -1,0 +1,22 @@
+{
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第一章 Web基础与HTTP请求响应",
+  "chapter_mainline": "从浏览器—服务器—数据库到请求、状态与统一分析框架",
+  "task_count": 4,
+  "task_score_total": 15.0,
+  "relation_item_name": "系统链路图/关系图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "environment": "DVWA、本机浏览器、教师授权实验环境",
+  "authorization_boundary": "1. 所有观察对象仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。\n2. 第一章不做任何公网对象验证、扫描或抓包演示。\n3. 第一章先建立“技术动作必须服从授权边界”的课程基线。",
+  "submission_format": "PDF",
+  "suggested_duration": "3-4 小时",
+  "submission_naming": "<学号><姓名>Web基础与HTTP请求响应.pdf",
+  "generated_files": {
+    "teacher_pack": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_教师端作业包_v5.0.md",
+    "student_sheet": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_教师验收表_v5.0.md",
+    "feedback_template": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_班级级教学反馈模板_v5.0.md",
+    "score_summary": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_任务分值与红线摘要_v5.0.md"
+  }
+}

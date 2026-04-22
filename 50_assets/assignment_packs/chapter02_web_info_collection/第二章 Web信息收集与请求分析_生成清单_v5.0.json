@@ -1,0 +1,22 @@
+{
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第二章 Web信息收集与请求分析",
+  "chapter_mainline": "从公开线索到请求证据，再到授权主动探测",
+  "task_count": 6,
+  "task_score_total": 15.0,
+  "relation_item_name": "六层信息综合关系图/表",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "environment": "DVWA、本机浏览器、教师授权实验环境",
+  "authorization_boundary": "1. 仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。\n2. 不使用任何公网真实目标作为演示对象。\n3. 所有截图与说明都必须可追溯、可脱敏。",
+  "submission_format": "PDF",
+  "suggested_duration": "5-6 小时",
+  "submission_naming": "<学号><姓名>Web信息收集与请求分析.pdf",
+  "generated_files": {
+    "teacher_pack": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_教师端作业包_v5.0.md",
+    "student_sheet": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_教师验收表_v5.0.md",
+    "feedback_template": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_班级级教学反馈模板_v5.0.md",
+    "score_summary": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_任务分值与红线摘要_v5.0.md"
+  }
+}
