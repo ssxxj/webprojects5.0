@@ -1,0 +1,164 @@
+schema_version: v5.0
+generator_target: chapter_lesson_script
+course: Web应用安全与防护
+chapter_id: chapter07_auth_session_access_control
+chapter_title: 第七章 身份认证、会话与访问控制
+duration_minutes: 90
+owner: Shen
+updated: '2026-04-20'
+chapter_type: 漏洞机制章
+core_spine: 从身份确认走到持续信任、请求来源与最终放行边界，建立身份信任链。
+chapter_goals:
+- 学生能区分认证、会话、请求来源校验与访问控制的不同职责。
+- 学生能理解“已登录”不等于后续请求可信，也不等于最终有权放行。
+- 学生能把 Brute Force、Weak Session IDs、CSRF 放回同一条“身份 -> 状态 -> 来源 -> 权限”链中解释。
+prerequisites:
+- 已完成前几章“输入进入危险结构”的主线。
+- 能接受风险并不只发生在输入瞬间，也可能发生在系统持续信任和放行决策环节。
+- 具备最小请求、Cookie、状态概念。
+boundary_rules:
+- 仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。
+- 不对任何公网真实站点做认证、会话、CSRF 或访问控制验证。
+- 截图中的账号、Cookie、SessionID、Token 等敏感字段必须脱敏、可追溯。
+class_baseline: 已完成前六章，能接受“风险来自链路失控”，但容易把认证、会话、CSRF 和访问控制混成同一件事。
+environment: DVWA、本机浏览器、教师授权实验环境
+authorized_scope:
+- DVWA
+- 本机浏览器
+- localhost
+- 127.0.0.1
+- 教师授权环境
+sensitive_fields_to_mask:
+- 账号
+- Cookie
+- SessionID
+- Token
+- 路径
+pace_blocks:
+- time: 0-10
+  name: 开场与边界
+  goal: 纠正“登录成功就够了”的直觉
+  teacher_action: 展示身份信任链而不是漏洞拼盘。
+  student_action: 判断系统放行前至少还要看哪些环节。
+  evidence: 边界说明
+- time: 10-30
+  name: Concept
+  goal: 建立“身份 -> 状态 -> 来源 -> 权限”最小模型
+  teacher_action: 用登录到敏感操作场景拆链。
+  student_action: 说出四段链各解决什么。
+  evidence: 任务1 草稿
+- time: 30-55
+  name: Mechanism
+  goal: 讲清 Brute Force、Weak Session IDs、CSRF 的不同落点
+  teacher_action: 对比三类现象分别破坏链路哪一段。
+  student_action: 标出失控环节。
+  evidence: 任务2-4 字段
+- time: 55-75
+  name: Application
+  goal: 收束访问控制与整体加固链
+  teacher_action: 用“已登录但仍不该放行”的场景收束。
+  student_action: 完成身份安全加固清单。
+  evidence: 任务5 草稿
+- time: 75-90
+  name: 形成性评估与收口
+  goal: 固化流程图/关系图要求
+  teacher_action: 现场收束关系图列项与 AI 审核要求。
+  student_action: 完成最小关系链图和 1 个强制判断题。
+  evidence: 关系图草稿 + Exit Ticket
+omdm_map:
+  observation:
+    action: 展示登录、会话保持、敏感请求放行场景。
+    question: 登录后系统还需要继续判断什么？
+    evidence: 学生能说出至少 3 个后续判断点。
+  decision:
+    action: 强制判断“身份可信 / 状态可信 / 来源可信 / 权限可信”。
+    question: 这里的问题发生在身份确认、持续信任、请求来源还是最终权限放行？
+    evidence: 口头选择与理由。
+  evidence:
+    action: 标出登录结果、Cookie/Session、来源差异和放行结果。
+    question: 哪个现象支撑你判断是会话问题，哪个现象支撑你判断是来源或权限问题？
+    evidence: 登录结果、Session线索、来源差异、放行结果。
+  mechanism:
+    action: 收束“身份 -> 状态 -> 来源 -> 权限”链。
+    question: 为什么“已登录”不能替代来源校验和访问控制？
+    evidence: 身份信任链解释。
+  modification:
+    action: 讨论验证码、随机 Session、CSRF Token、访问控制时的变化。
+    question: 如果用户名密码仍正确，但来源校验或权限校验失效，风险链会怎样变化？
+    evidence: 条件变化解释。
+board_skeleton:
+- 身份 -> 状态 -> 来源 -> 权限
+- 认证：你是谁
+- 会话：你还是你吗
+- 来源：这是不是你的真实意图
+- 权限：你到底能做什么
+key_questions:
+  forced_choice:
+  - Brute Force 更接近：A 口令知识点；B 认证成本设计问题。
+  - Weak Session IDs 主要破坏：A 输入校验；B 持续信任。
+  - CSRF 更接近：A 密码泄露；B 来源与意图失配。
+  evidence_probe:
+  - 哪个现象支撑你说这里的问题发生在会话而不是认证？
+  - 哪个现象支撑你说“已登录”仍不能说明请求可信或有权放行？
+  conditional_change:
+  - 如果加入验证码、限速或锁定，Brute Force 的风险链会怎样变化？
+  - 如果会话足够随机但没有访问控制，为什么风险仍可能存在？
+served_tasks:
+- 认证、会话与访问控制系统模型
+- Brute Force Low/Medium 观察与分析
+- Weak Session IDs 机制说明
+- CSRF 现象与来源校验分析
+- 访问控制与身份安全加固清单
+required_relation_graph:
+- 至少写出“身份 / 状态 / 来源 / 权限”四段。
+- 至少写出一个“能说明什么”和一个“不能直接替代什么”。
+- 只列漏洞名和防护名词不算达标。
+ai_review_prompt:
+- 不能只复制漏洞定义和防护清单，要写清自己核实了哪一段信任链失控。
+- 第七章最容易误判的是：把已登录直接写成请求可信和权限可信。
+formative_assessment:
+  action: 给学生一组 Brute Force、Weak Session IDs、CSRF 现象，要求画出最小身份信任链，指出失控环节与控制点，并判断当前证据最多支撑到“认证成本问题
+    / 会话问题 / 来源问题 / 权限问题”的哪一步。
+  pass_criteria:
+  - 至少能正确写出“身份 -> 状态 -> 来源 -> 权限”四段链路。
+  - 能区分认证、会话、来源校验和访问控制。
+  - 不把“已登录”直接写成放行依据。
+  common_failures:
+  - 把 Brute Force、Weak Session IDs、CSRF 当作互不相关的漏洞名词。
+  - 把 CSRF 写成密码泄露问题。
+  - 把访问控制和登录状态混在一起。
+high_freq_misconceptions:
+- issue: 任务部分完成
+  trigger: 只交定义不交链路
+  correction: 追问“系统为什么还要继续判断”。
+  from_memory: true
+- issue: 证据不清晰
+  trigger: 三类现象对比
+  correction: 强制补“哪个现象支持你的环节判断”。
+  from_memory: true
+- issue: 证据与结论不对应
+  trigger: 直接写已登录即可放行
+  correction: 改写为“当前证据最多支撑到哪一步”。
+  from_memory: true
+- issue: 关系链不足
+  trigger: 流程图/关系图收口
+  correction: 强制补“来源”和“权限”节点。
+  from_memory: true
+- issue: 防护建议泛化
+  trigger: 加固清单设计
+  correction: 强制把建议挂回认证、会话、来源、权限节点。
+  from_memory: true
+step9_min_observations:
+- 学生最容易把哪个环节混成同一件事。
+- 哪个控制点最容易被学生忽略。
+- 强制选择题里最常见的错误选项是什么。
+after_class_bridge:
+  assignment:
+  - 按 assignment pack 完成五类任务与收口项。
+  - 流程图/关系图必须体现信任链节点和结论范围。
+  - AI 审核记录为必填。
+  next_chapter:
+  - 第七章结束后，第八章进入“统一框架、横向比较、项目论证与课程反思”的综合收束主线。
+  if_unbalanced_adjustment:
+  - 如果学生仍在背漏洞定义，下次应压缩定义复述、增加链路定位训练。
+  - 如果学生不会区分来源与权限，下次应加强情境判断与放行边界训练。

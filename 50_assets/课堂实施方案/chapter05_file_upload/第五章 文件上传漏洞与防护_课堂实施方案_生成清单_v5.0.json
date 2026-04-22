@@ -1,0 +1,10 @@
+{
+  "schema_version": "v5.0",
+  "generator": "generate_lesson_script_v5.py",
+  "generated_at": "2026-04-20",
+  "chapter_id": "chapter05_file_upload",
+  "chapter_title": "第五章 文件上传漏洞与防护",
+  "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter05_file_upload/lesson_script_input_v5.yaml",
+  "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter05_file_upload/第五章 文件上传漏洞与防护_课堂实施方案_v5.0.md",
+  "validation_errors": []
+}

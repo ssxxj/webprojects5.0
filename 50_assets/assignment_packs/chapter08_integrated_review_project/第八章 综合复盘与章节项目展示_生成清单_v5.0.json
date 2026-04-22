@@ -1,0 +1,22 @@
+{
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第八章 综合复盘与章节项目展示",
+  "chapter_mainline": "从章节知识回顾，到统一框架比较、项目论证与课程复盘",
+  "task_count": 4,
+  "task_score_total": 15.0,
+  "relation_item_name": "统一分析框架图/项目论证结构图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "environment": "DVWA、本机浏览器、教师授权实验环境、展示材料",
+  "authorization_boundary": "1. 综合展示所用截图、案例、现象必须来自 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。\n2. 不得为展示效果补做未授权真实目标材料。\n3. 展示材料中的账号、Cookie、路径、截图和互评记录必须脱敏、可追溯。",
+  "submission_format": "PDF",
+  "suggested_duration": "3-4 小时",
+  "submission_naming": "<学号><姓名>综合复盘与章节项目展示.pdf",
+  "generated_files": {
+    "teacher_pack": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_教师端作业包_v5.0.md",
+    "student_sheet": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_教师验收表_v5.0.md",
+    "feedback_template": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_班级级教学反馈模板_v5.0.md",
+    "score_summary": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_任务分值与红线摘要_v5.0.md"
+  }
+}

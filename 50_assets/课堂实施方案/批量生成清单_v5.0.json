@@ -1,0 +1,77 @@
+{
+  "schema_version": "v5.0",
+  "generator": "generate_all_lesson_scripts_v5.py",
+  "generated_at": "2026-04-20",
+  "root": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案",
+  "chapter_filters": [],
+  "validate_only": false,
+  "total": 8,
+  "success": 8,
+  "failed": 0,
+  "results": [
+    {
+      "chapter_dir": "chapter01_http_request_response",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter01_http_request_response/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter01_http_request_response/第一章 Web基础与HTTP请求响应_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter02_web_info_collection",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter02_web_info_collection/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter02_web_info_collection/第二章 Web信息收集与请求分析_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter02_web_info_collection/第二章 Web信息收集与请求分析_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter03_sql_injection",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter03_sql_injection/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter03_sql_injection/第三章 SQL注入漏洞与防护_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter03_sql_injection/第三章 SQL注入漏洞与防护_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter04_xss",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter04_xss/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter04_xss/第四章 XSS漏洞与防护_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter04_xss/第四章 XSS漏洞与防护_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter05_file_upload",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter05_file_upload/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter05_file_upload/第五章 文件上传漏洞与防护_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter05_file_upload/第五章 文件上传漏洞与防护_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter06_command_injection",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter06_command_injection/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter06_command_injection/第六章 命令执行漏洞与防护_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter06_command_injection/第六章 命令执行漏洞与防护_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter07_auth_session_access_control",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter07_auth_session_access_control/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter07_auth_session_access_control/第七章 身份认证、会话与访问控制_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter07_auth_session_access_control/第七章 身份认证、会话与访问控制_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    },
+    {
+      "chapter_dir": "chapter08_integrated_review_project",
+      "input_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter08_integrated_review_project/lesson_script_input_v5.yaml",
+      "output_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_课堂实施方案_v5.0.md",
+      "manifest_file": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/课堂实施方案/chapter08_integrated_review_project/第八章 综合复盘与章节项目展示_课堂实施方案_生成清单_v5.0.json",
+      "status": "ok",
+      "validation_errors": []
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第四章 XSS漏洞与防护",
+  "chapter_mainline": "从浏览器解析与输出上下文，到脚本执行控制",
+  "task_count": 5,
+  "task_score_total": 15.0,
+  "relation_item_name": "XSS类型差异与风险链关系图/表",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "environment": "DVWA、本机浏览器、教师授权实验环境",
+  "authorization_boundary": "1. 仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。\n2. 不使用任何公网真实目标进行 XSS 观察或验证。\n3. 截图、账号、Cookie 等敏感信息必须脱敏、可追溯。",
+  "submission_format": "PDF",
+  "suggested_duration": "4-5 小时",
+  "submission_naming": "<学号><姓名>XSS漏洞与防护.pdf",
+  "generated_files": {
+    "teacher_pack": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter04_xss/第四章 XSS漏洞与防护_教师端作业包_v5.0.md",
+    "student_sheet": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter04_xss/第四章 XSS漏洞与防护_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter04_xss/第四章 XSS漏洞与防护_教师验收表_v5.0.md",
+    "feedback_template": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter04_xss/第四章 XSS漏洞与防护_班级级教学反馈模板_v5.0.md",
+    "score_summary": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/50_assets/assignment_packs/chapter04_xss/第四章 XSS漏洞与防护_任务分值与红线摘要_v5.0.md"
+  }
+}
