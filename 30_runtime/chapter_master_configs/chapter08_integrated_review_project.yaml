@@ -1,0 +1,239 @@
+schema_version: v5.0
+generator_target: chapter_asset_master
+course: Web应用安全与防护
+chapter_id: chapter08_integrated_review_project
+chapter_title: 第八章 综合复盘与章节项目展示
+owner: Shen
+updated: '2026-04-20'
+profile:
+  chapter_mainline: 从章节知识回顾，到统一框架比较、项目论证与课程复盘
+  capability_goals:
+  - 使用“输入—处理—输出—执行—身份—权限”统一框架回顾前面各章
+  - 比较 SQL 注入、XSS、文件上传、命令执行、会话安全问题的共性与差异
+  - 围绕明确主题组织综合项目的目标、证据、结构和交付物
+  - 在展示中说清概念、机制、证据、防护与思维过程
+  - 通过互评与反思形成项目化学习和元认知意识
+  tasks:
+  - name: 课程主线回顾与统一框架图
+    score: 3.5
+    required: true
+    semantic_requirements:
+    - 统一框架的核心节点
+    - 至少2章内容挂接到框架中
+    - 说明至少1条共性主线
+    - 体现系统化理解
+  - name: 典型漏洞横向比较表
+    score: 3.5
+    required: true
+    semantic_requirements:
+    - 至少3类漏洞比较
+    - 固定比较维度
+    - 至少1个共性与1个关键差异
+    - 防护重点比较
+  - name: 综合项目计划单
+    score: 3.0
+    required: true
+    semantic_requirements:
+    - 项目主题
+    - 核心判断或论点
+    - 证据来源
+    - 结构安排或分工
+  - name: 综合项目报告或展示材料
+    score: 5.0
+    required: true
+    semantic_requirements:
+    - 概念、机制、证据、防护完整
+    - 围绕主论点组织内容
+    - 至少1个结构化图表或比较图
+    - 交付物清楚可复核
+  relation_item_name: 统一分析框架图/项目论证结构图
+  relation_item_score: 3.0
+  self_eval_score: 2.0
+  redlines:
+  - name: 未脱敏
+    description: 展示材料、截图或案例中敏感信息未按要求脱敏
+    action: lt_60
+  - name: 超出授权边界
+    description: 综合项目使用未授权真实目标或不合规素材作为展示证据
+    action: lt_60
+  - name: 证据伪造或不可追溯
+    description: 项目材料中的截图、数据、实验记录或结论明显无法互相支撑
+    action: lt_60
+  - name: 高度雷同或抄袭代做
+    description: 与他人作业高度雷同，或存在抄袭、代做情形
+    action: lt_60
+  professional_checks:
+  - 是否真正使用统一框架组织前面章节，而不是简单罗列知识点
+  - 是否围绕固定维度比较漏洞的共性与差异
+  - 是否做到论点、证据、结构和交付物一致
+  - 是否在互评或反思中呈现证据化反馈而不是空泛评价
+  - 是否对引用案例、授权边界和 AI 辅助痕迹给出负责任表达
+  default_tags:
+  - T1
+  - T2
+  - E1
+  - E2
+  - M1
+  - R1
+  - R2
+  - B1
+  - P1
+  - C1
+assignment:
+  submission_format: PDF
+  suggested_duration: 3-4 小时
+  naming: <学号><姓名>综合复盘与章节项目展示.pdf
+lesson:
+  duration_minutes: 90
+  chapter_type: 综合章
+  core_spine: 从统一框架走到横向比较、项目论证、展示互评与课程级反思。
+  chapter_goals:
+  - 学生能用“输入 -> 处理 -> 输出 -> 执行 -> 身份 -> 权限”的统一框架回顾前面章节。
+  - 学生能用固定维度比较多类漏洞的共性与差异。
+  - 学生能让项目论点、证据、结构和交付物保持一致，并在展示与互评中证据化表达。
+  prerequisites:
+  - 已完成前七章讲义与作业基础训练。
+  - 已能说出至少三章的主线和核心控制点。
+  - 具备最小项目汇报、比较分析和自我反思能力。
+  boundary_rules:
+  - 综合展示所用截图、案例、现象必须来自 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。
+  - 不得为展示效果补做未授权真实目标材料。
+  - 展示材料中的账号、Cookie、路径、截图和互评记录必须脱敏、可追溯。
+  class_baseline: 已完成前七章，能回忆典型现象，但容易停留在逐章复述，缺少统一框架、比较维度和项目论证结构。
+  environment: DVWA、本机浏览器、教师授权实验环境、展示材料
+  authorized_scope:
+  - DVWA
+  - 本机浏览器
+  - localhost
+  - 127.0.0.1
+  - 教师授权环境
+  sensitive_fields_to_mask:
+  - 账号
+  - Cookie
+  - 路径
+  - 截图
+  - 互评记录
+  pace_blocks:
+  - time: 0-10
+    name: 开场与边界
+    goal: 纠正“复盘=再背一遍”的直觉
+    teacher_action: 明确本章是统一框架与项目论证课。
+    student_action: 判断项目汇报最核心要证明什么。
+    evidence: 边界说明
+  - time: 10-30
+    name: Concept
+    goal: 建立统一分析框架与比较维度
+    teacher_action: 用前七章现象卡收束共性结构。
+    student_action: 把至少两章挂回统一框架。
+    evidence: 任务1 草稿
+  - time: 30-50
+    name: Mechanism
+    goal: 讲清“比较”和“项目论证”不是罗列材料
+    teacher_action: 用好/坏样例对照论点与证据一致性。
+    student_action: 标出展示材料中的主论点与支撑证据。
+    evidence: 任务2-3 字段
+  - time: 50-75
+    name: Application
+    goal: 收束综合项目结构、展示和互评方法
+    teacher_action: 巡查展示材料并做证据追问。
+    student_action: 完成项目结构图和展示稿修订。
+    evidence: 任务4 草稿
+  - time: 75-90
+    name: 形成性评估与收口
+    goal: 固化统一框架图与互评/反思要求
+    teacher_action: 现场收束框架图列项与 AI 审核要求。
+    student_action: 完成最小框架图、互评条目和 1 个强制判断题。
+    evidence: 关系图草稿 + Exit Ticket
+  omdm_map:
+    observation:
+      action: 并列展示多章典型现象与学生项目草稿。
+      question: 这些材料表面不同，背后的共性结构是什么？
+      evidence: 学生能挂回统一框架至少两个节点。
+    decision:
+      action: 强制判断“这是知识点罗列还是项目论证”。
+      question: 这张图/这一页材料到底想证明什么？
+      evidence: 口头选择与理由。
+    evidence:
+      action: 标出论点、比较维度、证据和交付物对应关系。
+      question: 哪个证据支持你的比较结论，哪个证据不够支撑？
+      evidence: 框架图、比较表、展示页证据。
+    mechanism:
+      action: 收束“统一框架 -> 比较维度 -> 论点 -> 证据 -> 交付物”链。
+      question: 为什么材料越多不等于项目越好？
+      evidence: 项目论证结构解释。
+    modification:
+      action: 讨论去掉某页、换一个维度或换一种论证顺序时的变化。
+      question: 如果删掉这一页，项目主论点还站得住吗？
+      evidence: 条件变化解释。
+  board_skeleton:
+  - 统一框架：输入 -> 处理 -> 输出 -> 执行 -> 身份 -> 权限
+  - 项目论证：论点 -> 证据 -> 结构 -> 交付物 -> 互评 -> 反思
+  - 比较维度：进入点 / 危险环境 / 结果类型 / 控制点 / 不能替代什么
+  key_questions:
+    forced_choice:
+    - 综合复盘更接近：A 再背一遍定义；B 用统一框架重组前面章节。
+    - 项目展示最重要的是：A 页数多；B 论点、证据、结构一致。
+    - 互评更接近：A 主观印象；B 基于证据的反馈。
+    evidence_probe:
+    - 哪个比较维度真正支撑了你说这两类漏洞“相同”或“不同”？
+    - 哪个证据支撑了你的项目主论点，而不是只是在展示材料？
+    conditional_change:
+    - 如果把统一框架图删掉，项目还能形成课程级收束吗？
+    - 如果展示材料很多但没有主论点，为什么项目仍然会失效？
+  served_tasks:
+  - 课程主线回顾与统一框架图
+  - 典型漏洞横向比较表
+  - 综合项目计划单
+  - 综合项目报告或展示材料
+  required_relation_graph:
+  - 至少写出“输入 / 处理 / 输出 / 执行 / 身份 / 权限”统一框架。
+  - 至少写出一个“共性”维度和一个“差异”维度。
+  - 只列章节名、漏洞名和防护名词不算达标。
+  ai_review_prompt:
+  - 不能只复制总结或比较表，要写清自己核实了哪条主论点和哪组证据关系。
+  - 第八章最容易误判的是：把展示材料的堆叠直接写成项目论证成立。
+  formative_assessment:
+    action: 给学生一组前七章现象卡和一份项目草稿，要求画出统一分析框架图，做一张横向比较表，并判断当前展示材料最多支撑到“现象罗列 / 比较分析 / 项目论证”的哪一步。
+    pass_criteria:
+    - 至少能用统一框架解释两类以上漏洞的共性。
+    - 能围绕固定维度做比较，而不是并列罗列知识点。
+    - 能说明项目材料中的主论点、关键证据和结构关系。
+    common_failures:
+    - 把综合复盘写成“每章定义拼接”。
+    - 展示材料很多，但没有明确主论点。
+    - 互评和反思停留在感想层，没有证据支持。
+  high_freq_misconceptions:
+  - issue: 任务部分完成
+    trigger: 只做回顾不做比较和论证
+    correction: 追问“这份材料到底想证明什么”。
+    from_memory: true
+  - issue: 证据不清晰
+    trigger: 展示与互评
+    correction: 强制补“哪条证据支持哪条结论”。
+    from_memory: true
+  - issue: 证据与结论不对应
+    trigger: 综合项目论点
+    correction: 改写为“当前证据最多支撑到哪一步”。
+    from_memory: true
+  - issue: 关系链不足
+    trigger: 统一框架图/结构图收口
+    correction: 强制补“统一框架”和“项目论证结构”节点。
+    from_memory: true
+  - issue: 防护建议泛化
+    trigger: 综合比较表
+    correction: 强制把结论挂回具体维度和章节位置。
+    from_memory: true
+  step9_min_observations:
+  - 学生最容易把哪个“材料堆叠”误写成项目论证。
+  - 哪个比较维度最容易缺失。
+  - 强制选择题里最常见的错误选项是什么。
+  after_class_bridge:
+    assignment:
+    - 按 assignment pack 完成四类任务与收口项。
+    - 统一框架图/结构图必须体现比较维度、主论点和结论范围。
+    - AI 审核记录为必填。
+    next_chapter:
+    - 第八章是课程收束章，后续应进入项目复盘、班级反馈和课程资产回写。
+    if_unbalanced_adjustment:
+    - 如果学生仍在逐章背定义，下次应压缩章节回顾、增加统一框架挂接练习。
+    - 如果学生不会把论点、证据、结构对齐，下次应加强展示稿巡查和证据追问训练。

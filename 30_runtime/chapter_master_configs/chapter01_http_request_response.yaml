@@ -1,0 +1,238 @@
+schema_version: v5.0
+generator_target: chapter_asset_master
+course: Web应用安全与防护
+chapter_id: chapter01_http_request_response
+chapter_title: 第一章 Web基础与HTTP请求响应
+owner: Shen
+updated: '2026-04-20'
+profile:
+  chapter_mainline: 从浏览器—服务器—数据库到请求、状态与统一分析框架
+  capability_goals:
+  - 说出浏览器、服务器、数据库在 Web 应用中的基本角色
+  - 解释一次 HTTP 请求与响应的大致流程
+  - 识别 URL 参数、表单参数、Cookie、Session 等基础对象
+  - 解释系统为什么需要状态维持，以及 Cookie 与 Session 的分工
+  - 用“输入—处理—输出—执行—身份”框架分析简单页面场景
+  tasks:
+  - name: Web三层架构与数据流图
+    score: 4.0
+    required: true
+    semantic_requirements:
+    - 浏览器、服务器、数据库三层角色
+    - 输入从哪里进入
+    - 结果从哪里返回
+    - 至少1个安全关注点
+  - name: HTTP请求与响应基础记录
+    score: 4.0
+    required: true
+    semantic_requirements:
+    - 请求方法
+    - URL或路径
+    - 参数位置
+    - 状态码或返回结果
+    - HTTPS保护边界
+  - name: Cookie与Session状态维持机制说明
+    score: 4.0
+    required: true
+    semantic_requirements:
+    - 登录前后状态变化
+    - 至少1个Cookie或Session线索
+    - 为什么登录后还能保持状态
+    - Cookie与Session分工
+  - name: 输入—处理—输出—执行—身份框架应用
+    score: 3.0
+    required: true
+    semantic_requirements:
+    - 至少1个简单页面场景
+    - 输入点与输出点
+    - 至少2个风险点或控制点
+    - 统一分析框架解释
+  relation_item_name: 系统链路图/关系图
+  relation_item_score: 3.0
+  self_eval_score: 2.0
+  redlines:
+  - name: 未脱敏
+    description: 截图中敏感信息未脱敏
+    action: lt_60
+  - name: 超出授权边界
+    description: 对未授权目标进行观察、测试或抓包
+    action: lt_60
+  - name: 证据伪造或不可追溯
+    description: 截图、字段或过程明显不真实，无法支撑作业结论
+    action: lt_60
+  - name: 高度雷同或抄袭代做
+    description: 与他人作业高度雷同，或存在抄袭、代做情形
+    action: lt_60
+  professional_checks:
+  - 是否区分 HTTP/HTTPS 传输保护与业务安全
+  - 是否区分 Cookie 与 Session 的职责
+  - 是否能用证据解释状态维持，而不是只背术语
+  - 是否避免将 IP 地址绝对化地写成主要身份识别依据
+  - 是否对授权边界和脱敏要求给出负责任表达
+  default_tags:
+  - T1
+  - T2
+  - E1
+  - E2
+  - M1
+  - R2
+  - B1
+  - P1
+  - C1
+assignment:
+  submission_format: PDF
+  suggested_duration: 3-4 小时
+  naming: <学号><姓名>Web基础与HTTP请求响应.pdf
+lesson:
+  duration_minutes: 90
+  chapter_type: 基础章
+  core_spine: 从页面现象走到请求、状态与系统链路，再把后续章节放回统一分析框架。
+  chapter_goals:
+  - 学生能把网页理解成系统结果，而不是孤立页面。
+  - 学生能说出浏览器、服务器、数据库、请求、响应、状态维持之间的最小关系。
+  - 学生能用“输入—处理—输出—执行—身份”框架描述一个简单页面场景。
+  prerequisites:
+  - 无需前置安全漏洞知识。
+  - 允许学生仅有最基础的网页使用经验。
+  boundary_rules:
+  - 所有观察对象仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。
+  - 第一章不做任何公网对象验证、扫描或抓包演示。
+  - 第一章先建立“技术动作必须服从授权边界”的课程基线。
+  class_baseline: 0 基础或弱基础，尚未形成稳定的 Web 系统模型。
+  environment: DVWA、本机浏览器、教师授权实验环境
+  authorized_scope:
+  - DVWA
+  - 本机浏览器
+  - localhost
+  - 127.0.0.1
+  - 教师授权环境
+  sensitive_fields_to_mask:
+  - 账号
+  - Cookie
+  - SessionID
+  - 路径
+  pace_blocks:
+  - time: 0-10
+    name: 开场与边界
+    goal: 先立边界而不是先堆概念
+    teacher_action: 用 3 个场景讲清授权与未授权差别。
+    student_action: 判断哪些场景属于课堂授权实验。
+    evidence: 边界判断依据
+  - time: 10-30
+    name: Concept
+    goal: 建立“网页不是页面本身”的系统模型
+    teacher_action: 展示登录页、提交动作和结果页面。
+    student_action: 指出输入点、处理位置、结果返回位置。
+    evidence: 三层架构草图
+  - time: 30-55
+    name: Mechanism
+    goal: 讲清请求/响应与状态维持机制
+    teacher_action: 解释 HTTP、Cookie、Session 与系统协作。
+    student_action: 说明为什么登录后系统还能识别用户。
+    evidence: 请求-状态链
+  - time: 55-80
+    name: Application
+    goal: 用统一分析框架收束第一章
+    teacher_action: 将页面现象映射到“输入—处理—输出—执行—身份”。
+    student_action: 完成最小链路分析。
+    evidence: 任务2-4最小字段
+  - time: 80-90
+    name: 形成性评估与收口
+    goal: 固化系统链路图和作业要求
+    teacher_action: 收束关系图列项与 AI 审核要求。
+    student_action: 完成最小系统链路表和 1 个强制判断题。
+    evidence: 关系图草稿 + Exit Ticket
+  omdm_map:
+    observation:
+      action: 展示登录页、登录后页面和状态保持现象。
+      question: 你看到的变化只是页面变化，还是系统处理结果？
+      evidence: 学生能描述现象对象。
+    decision:
+      action: 强制判断“网页是页面还是系统结果”。
+      question: 登录状态是浏览器自然记住你，还是系统通过状态维持识别你？
+      evidence: 口头选择与理由。
+    evidence:
+      action: 标出输入点、请求对象、状态线索。
+      question: 哪个对象支撑你说这里发生了请求或状态维持？
+      evidence: URL、参数、Cookie、页面状态。
+    mechanism:
+      action: 收束三层架构、请求响应、Cookie/Session。
+      question: 为什么 HTTPS 不等于业务一定安全？为什么 Cookie 和 Session 不是同一个东西？
+      evidence: 机制解释。
+    modification:
+      action: 讨论没有服务器、没有数据库、不保存 Cookie 时会怎样。
+      question: 如果浏览器不保存 Cookie，会发生什么？
+      evidence: 条件变化解释。
+  board_skeleton:
+  - 页面现象 -> 浏览器 -> 服务器 -> 数据库 -> 返回结果
+  - 请求 / 响应 / 状态维持
+  - 输入 -> 处理 -> 输出 -> 执行 -> 身份
+  key_questions:
+    forced_choice:
+    - 判断合法性的核心更接近：A 用了什么工具；B 有没有明确授权、范围和责任。
+    - 登录后系统继续识别用户，更接近：A 服务器自然记住你；B 浏览器状态标识与服务器会话记录配合。
+    - HTTPS 解决的更接近：A 网站一定安全；B 传输过程保护。
+    evidence_probe:
+    - 哪个现象支撑你说“这里不只是页面显示变化”？
+    - 哪个对象支撑你说“系统正在维持状态”？
+    conditional_change:
+    - 如果没有服务器处理，这个页面变化还会不会成立？
+    - 如果换一个浏览器重新访问，为什么登录状态通常不会自动继承？
+  served_tasks:
+  - Web三层架构与数据流图
+  - HTTP请求与响应基础记录
+  - Cookie与Session状态维持机制说明
+  - 输入—处理—输出—执行—身份框架应用
+  required_relation_graph:
+  - 至少写出输入从哪进入、处理在哪发生、结果如何返回。
+  - 至少写出状态维持对象与统一分析框架之间的关系。
+  - 只列名词和定义不算达标。
+  ai_review_prompt:
+  - 不允许只复制术语解释，必须写“自己核实了什么”。
+  - 第一章最容易误判的是：把概念定义当成机制解释，把页面现象当成系统结论。
+  formative_assessment:
+    action: 给学生一个简单页面场景，要求画出浏览器—服务器—数据库最小关系图，标出输入、处理、输出、身份对象，并用一句话解释 Cookie 与 Session
+      的分工。
+    pass_criteria:
+    - 能把页面结果放回三层架构。
+    - 不把 Cookie 与 Session 写成同一个东西。
+    - 不把 HTTPS 写成“业务已经安全”。
+    common_failures:
+    - 只会背术语，不会回到页面现象解释。
+    - 把登录状态写成“系统自然记住用户”。
+    - 把关系图画成名词罗列，没有数据流方向。
+  high_freq_misconceptions:
+  - issue: 任务部分完成
+    trigger: 只交图不写解释
+    correction: 追问“这条箭头说明了什么”。
+    from_memory: true
+  - issue: 证据不清晰
+    trigger: 状态维持说明
+    correction: 追问“哪个现象支持你这么说”。
+    from_memory: true
+  - issue: 证据与结论不对应
+    trigger: HTTPS / Cookie / Session 表述
+    correction: 改写为“它最多支持到哪一步”。
+    from_memory: true
+  - issue: 关系链不足
+    trigger: 系统链路图收口
+    correction: 强制补“处理位置”和“状态对象”。
+    from_memory: true
+  - issue: 边界表达不足
+    trigger: 开场边界判断
+    correction: 用场景反例重讲授权范围。
+    from_memory: true
+  step9_min_observations:
+  - 学生最容易把哪两个概念混在一起。
+  - 哪个板书节点最难被学生复述出来。
+  - 强制选择题里最常见的错误选项是什么。
+  after_class_bridge:
+    assignment:
+    - 按 assignment pack 完成四类任务与收口项。
+    - 系统链路图必须体现数据流与状态对象。
+    - AI 审核记录为必填。
+    next_chapter:
+    - 第一章结束后，第二章进入“面对真实页面和请求时，先观察什么、哪些结果只能算线索、哪些更接近证据”。
+    if_unbalanced_adjustment:
+    - 如果学生仍停留在定义背诵，下一次应增加页面现象到系统链路的映射练习。
+    - 如果学生不会解释状态维持，下一次应减少术语堆叠，增加登录前后状态对比。

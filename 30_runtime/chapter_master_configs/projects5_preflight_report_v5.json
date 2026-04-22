@@ -1,0 +1,29 @@
+{
+  "schema_version": "v5.0",
+  "generator": "preflight_projects5_v5.py",
+  "generated_at": "2026-04-20",
+  "root": "/Users/shen/教学/web应用安全与防护/web应用安全与防护projects5.0/30_runtime/chapter_master_configs",
+  "chapter_filters": [],
+  "release_ready": true,
+  "config_validation": {
+    "total": 8,
+    "success": 8,
+    "failed": 0,
+    "failed_chapters": []
+  },
+  "asset_consistency": {
+    "total": 8,
+    "clean": 8,
+    "drift": 0,
+    "error": 0,
+    "drift_chapters": [],
+    "error_chapters": []
+  },
+  "lecture_governance": {
+    "total": 8,
+    "clean": 8,
+    "issue": 0,
+    "issue_chapters": []
+  },
+  "next_action": "可发布"
+}

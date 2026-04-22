@@ -1,0 +1,102 @@
+{
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第一章 Web基础与HTTP请求响应",
+  "chapter_mainline": "从浏览器—服务器—数据库到请求、状态与统一分析框架",
+  "capability_goals": [
+    "说出浏览器、服务器、数据库在 Web 应用中的基本角色",
+    "解释一次 HTTP 请求与响应的大致流程",
+    "识别 URL 参数、表单参数、Cookie、Session 等基础对象",
+    "解释系统为什么需要状态维持，以及 Cookie 与 Session 的分工",
+    "用“输入—处理—输出—执行—身份”框架分析简单页面场景"
+  ],
+  "tasks": [
+    {
+      "name": "Web三层架构与数据流图",
+      "score": 4.0,
+      "required": true,
+      "semantic_requirements": [
+        "浏览器、服务器、数据库三层角色",
+        "输入从哪里进入",
+        "结果从哪里返回",
+        "至少1个安全关注点"
+      ]
+    },
+    {
+      "name": "HTTP请求与响应基础记录",
+      "score": 4.0,
+      "required": true,
+      "semantic_requirements": [
+        "请求方法",
+        "URL或路径",
+        "参数位置",
+        "状态码或返回结果",
+        "HTTPS保护边界"
+      ]
+    },
+    {
+      "name": "Cookie与Session状态维持机制说明",
+      "score": 4.0,
+      "required": true,
+      "semantic_requirements": [
+        "登录前后状态变化",
+        "至少1个Cookie或Session线索",
+        "为什么登录后还能保持状态",
+        "Cookie与Session分工"
+      ]
+    },
+    {
+      "name": "输入—处理—输出—执行—身份框架应用",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "至少1个简单页面场景",
+        "输入点与输出点",
+        "至少2个风险点或控制点",
+        "统一分析框架解释"
+      ]
+    }
+  ],
+  "relation_item_name": "系统链路图/关系图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "redlines": [
+    {
+      "name": "未脱敏",
+      "description": "截图中敏感信息未脱敏",
+      "action": "lt_60"
+    },
+    {
+      "name": "超出授权边界",
+      "description": "对未授权目标进行观察、测试或抓包",
+      "action": "lt_60"
+    },
+    {
+      "name": "证据伪造或不可追溯",
+      "description": "截图、字段或过程明显不真实，无法支撑作业结论",
+      "action": "lt_60"
+    },
+    {
+      "name": "高度雷同或抄袭代做",
+      "description": "与他人作业高度雷同，或存在抄袭、代做情形",
+      "action": "lt_60"
+    }
+  ],
+  "professional_checks": [
+    "是否区分 HTTP/HTTPS 传输保护与业务安全",
+    "是否区分 Cookie 与 Session 的职责",
+    "是否能用证据解释状态维持，而不是只背术语",
+    "是否避免将 IP 地址绝对化地写成主要身份识别依据",
+    "是否对授权边界和脱敏要求给出负责任表达"
+  ],
+  "default_tags": [
+    "T1",
+    "T2",
+    "E1",
+    "E2",
+    "M1",
+    "R2",
+    "B1",
+    "P1",
+    "C1"
+  ]
+}
