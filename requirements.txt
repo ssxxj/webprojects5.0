@@ -1,0 +1,5 @@
+PyYAML
+PyMuPDF
+openpyxl
+rapidocr-onnxruntime
+reportlab

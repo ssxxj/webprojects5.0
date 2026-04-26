@@ -1,0 +1,162 @@
+schema_version: v5.0
+generator_target: chapter_lesson_script
+course: Web应用安全与防护
+chapter_id: chapter05_file_upload
+chapter_title: 第五章 文件上传漏洞与防护
+duration_minutes: 90
+owner: Shen
+updated: '2026-04-20'
+chapter_type: 漏洞机制章
+core_spine: 从上传进入系统走到验证、存储、访问与执行控制，再走到链路完整性防护。
+chapter_goals:
+- 学生能理解文件上传不是单个动作，而是一条“上传 -> 验证 -> 存储 -> 访问 -> 执行”处理链。
+- 学生能区分扩展名、MIME、内容检查、存储隔离、访问控制、执行控制分别在链路中的作用。
+- 学生能把 Low / Medium 差异放回控制链，而不是只背过了哪些后缀危险。
+prerequisites:
+- 已完成第一章请求/响应与页面最小理解。
+- 已完成第二章线索、证据、主动探测区分。
+- 已完成第四章“输入进入输出与执行”的风险链理解，能接受“是否执行”是后续处理结果。
+boundary_rules:
+- 仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。
+- 不在公网真实站点测试上传绕过、执行链或访问路径。
+- 截图中的文件名、路径、账号信息应脱敏且可追溯。
+class_baseline: 已完成前四章，能接受“风险不只在输入本身，还在后续处理链”，但容易把上传成功直接等同于漏洞结论。
+environment: DVWA、本机浏览器、教师授权实验环境
+authorized_scope:
+- DVWA
+- 本机浏览器
+- localhost
+- 127.0.0.1
+- 教师授权环境
+sensitive_fields_to_mask:
+- 文件名
+- 路径
+- 账号
+- 截图中的主机信息
+pace_blocks:
+- time: 0-10
+  name: 开场与边界
+  goal: 纠正“上传成功=漏洞成立”的直觉
+  teacher_action: 重申授权边界，展示上传业务链而不是单个按钮。
+  student_action: 判断风险主要发生在哪个环节。
+  evidence: 边界说明
+- time: 10-30
+  name: Concept
+  goal: 建立上传链和控制点最小模型
+  teacher_action: 用流程图拆分上传、验证、存储、访问、执行。
+  student_action: 说出每一段各处理什么。
+  evidence: 任务1 草稿
+- time: 30-55
+  name: Mechanism
+  goal: 讲清 File Upload Low 的错误信任点
+  teacher_action: 展示 Low 现象与服务器处理后果。
+  student_action: 标出缺失了哪些控制点。
+  evidence: 任务2 字段
+- time: 55-75
+  name: Application
+  goal: 收束 Low / Medium 差异与防护链
+  teacher_action: 对比 Medium 新增了哪些检查、仍有哪些残留风险。
+  student_action: 完成 Low/Medium 对照表。
+  evidence: 任务3-4 草稿
+- time: 75-90
+  name: 形成性评估与收口
+  goal: 固化风险链/控制链关系图要求
+  teacher_action: 现场收束关系图列项与 AI 审核要求。
+  student_action: 完成最小关系链图和 1 个强制判断题。
+  evidence: 关系图草稿 + Exit Ticket
+omdm_map:
+  observation:
+    action: 展示上传表单、成功提示、文件落点与访问路径。
+    question: 上传成功后，系统到底多做了哪几步？
+    evidence: 学生能描述至少 3 个后续处理环节。
+  decision:
+    action: 强制判断“风险发生在上传瞬间还是后续处理链”。
+    question: 真正危险更接近文件到了服务器，还是系统如何验证、存储、暴露和执行它？
+    evidence: 口头选择与理由。
+  evidence:
+    action: 标出上传结果、保存位置、可访问路径和可能执行线索。
+    question: 哪个现象支撑你说这里只是上传成功，哪个现象支撑你说进入了更高风险状态？
+    evidence: 上传提示、路径、访问结果、执行现象。
+  mechanism:
+    action: 收束“上传 -> 验证 -> 存储 -> 访问 -> 执行”链。
+    question: 为什么扩展名检查不等于完整防护？
+    evidence: 风险链解释。
+  modification:
+    action: 讨论改名、隔离存储、禁止执行、私有访问时的变化。
+    question: 如果文件改名并存到不可执行目录，风险链在哪一段被切断？
+    evidence: 条件变化解释。
+board_skeleton:
+- 上传 -> 验证 -> 存储 -> 访问 -> 执行
+- 验证：扩展名 / MIME / 内容
+- 存储：目录 / 重命名 / 隔离
+- 访问：公开可达 / 私有可达
+- 执行：是否被解析 / 是否可执行
+key_questions:
+  forced_choice:
+  - 文件上传风险更接近：A 只要文件到服务器就等于漏洞；B 是否形成风险要看验证、存储、访问、执行链。
+  - 只检查文件后缀更接近控制：A 完整防护；B 链路中的一个弱控制点。
+  - 前端限制文件类型更接近控制：A 服务端验证；B 用户界面提示。
+  evidence_probe:
+  - 哪个现象支撑你说这里只是上传成功，而不是已经证明可执行？
+  - 哪个字段或路径支撑你判断风险来自存储、访问还是执行控制缺失？
+  conditional_change:
+  - 如果文件被自动重命名并存入不可公开访问目录，风险链会怎么变化？
+  - 如果服务器检查了扩展名但没有隔离目录与执行权限，为什么风险仍可能保留？
+served_tasks:
+- 文件上传业务流程与风险链说明
+- DVWA File Upload Low 现象记录
+- Low / Medium 控制差异比较
+- 上传防护清单与业务方案设计
+required_relation_graph:
+- 至少写出“上传 / 验证 / 存储 / 访问 / 执行”五段。
+- 至少写出一个“能说明什么”和一个“不能直接替代什么”。
+- 只列工具、后缀或防护名词不算达标。
+ai_review_prompt:
+- 不能只复制危险扩展名清单，要写清自己核实了哪一段控制缺失。
+- 第五章最容易误判的是：把上传成功直接写成完整漏洞结论。
+formative_assessment:
+  action: 给学生一组文件上传 Low / Medium 现象，要求画出最小上传链，指出缺失或新增的控制点，并判断当前证据最多支撑到“上传成功 / 可访问
+    / 可执行”的哪一步。
+  pass_criteria:
+  - 至少能正确写出“上传 -> 验证 -> 存储 -> 访问 -> 执行”五段链路。
+  - 能区分扩展名检查和完整服务端控制链不是同一层。
+  - 不把“上传成功”直接写成“漏洞已成立”。
+  common_failures:
+  - 把文件上传写成“传文件 -> 成功”两步。
+  - 只讨论危险后缀，不讨论存储目录、访问路径和执行权限。
+  - 把前端限制直接当作服务端安全控制。
+high_freq_misconceptions:
+- issue: 任务部分完成
+  trigger: 只交截图不解释链路
+  correction: 追问“上传之后系统还做了什么”。
+  from_memory: true
+- issue: 证据不清晰
+  trigger: Low / Medium 对比
+  correction: 强制补“哪个现象支持你的判断”。
+  from_memory: true
+- issue: 证据与结论不对应
+  trigger: 直接写漏洞成立
+  correction: 改写为“当前证据最多支持到哪一步”。
+  from_memory: true
+- issue: 关系链不足
+  trigger: 关系图/关系表收口
+  correction: 强制补“验证、存储、访问、执行”四个控制点。
+  from_memory: true
+- issue: 防护建议泛化
+  trigger: 防护清单设计
+  correction: 强制把建议挂回链路节点。
+  from_memory: true
+step9_min_observations:
+- 学生最容易把哪个现象误写成完整漏洞结论。
+- 哪个控制点最容易被学生忽略。
+- 强制选择题中最常见的错误选项是什么。
+after_class_bridge:
+  assignment:
+  - 按 assignment pack 完成四类任务与收口项。
+  - 风险链/关系图必须体现控制点和结论范围。
+  - AI 审核记录为必填。
+  next_chapter:
+  - 第五章结束后，第六章进入“输入如何进入系统命令结构”的命令执行主线。
+  if_unbalanced_adjustment:
+  - 如果学生仍只背后缀和样例，下次应压缩样例数量、增加链路拆分训练。
+  - 如果学生不会区分验证、存储、访问、执行控制，下次应加强链路节点归类训练。

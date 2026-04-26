@@ -1,0 +1,10 @@
+{
+  "schema_version": "v5.0",
+  "generator": "generate_lesson_script_v5.py",
+  "generated_at": "2026-04-26",
+  "chapter_id": "chapter02_web_info_collection",
+  "chapter_title": "第二章 Web信息收集与请求分析",
+  "input_file": "50_assets/课堂实施方案/chapter02_web_info_collection/lesson_script_input_v5.yaml",
+  "output_file": "50_assets/课堂实施方案/chapter02_web_info_collection/第二章 Web信息收集与请求分析_课堂实施方案_v5.0.md",
+  "validation_errors": []
+}
