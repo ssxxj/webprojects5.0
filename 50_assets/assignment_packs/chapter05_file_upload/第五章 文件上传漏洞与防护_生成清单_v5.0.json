@@ -1,0 +1,25 @@
+{
+  "schema_version": "v5.0",
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第五章 文件上传漏洞与防护",
+  "chapter_mainline": "从上传链路观察，到控制链完整性设计",
+  "generator": "generate_assignment_pack_v5.py",
+  "generated_at": "2026-04-26",
+  "task_count": 4,
+  "task_score_total": 15.0,
+  "relation_item_name": "文件上传链路图/风险控制关系图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "environment": "DVWA、本机浏览器、教师授权实验环境",
+  "authorization_boundary": "1. 仅限 DVWA、本机浏览器、localhost、127.0.0.1 或教师明确授权环境。\n2. 不在公网真实站点测试上传绕过、执行链或访问路径。\n3. 截图中的文件名、路径、账号信息应脱敏且可追溯。",
+  "submission_format": "PDF",
+  "suggested_duration": "3-4 小时",
+  "submission_naming": "<学号><姓名>文件上传漏洞与防护.pdf",
+  "generated_files": {
+    "teacher_pack": "50_assets/assignment_packs/chapter05_file_upload/第五章 文件上传漏洞与防护_教师端作业包_v5.0.md",
+    "student_sheet": "50_assets/assignment_packs/chapter05_file_upload/第五章 文件上传漏洞与防护_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "50_assets/assignment_packs/chapter05_file_upload/第五章 文件上传漏洞与防护_教师验收表_v5.0.md",
+    "feedback_template": "50_assets/assignment_packs/chapter05_file_upload/第五章 文件上传漏洞与防护_班级级教学反馈模板_v5.0.md",
+    "score_summary": "50_assets/assignment_packs/chapter05_file_upload/第五章 文件上传漏洞与防护_任务分值与红线摘要_v5.0.md"
+  }
+}
