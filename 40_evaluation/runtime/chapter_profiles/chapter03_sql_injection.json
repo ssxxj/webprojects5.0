@@ -1,0 +1,102 @@
+{
+  "schema_version": "v5.0",
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第三章 SQL注入漏洞与防护",
+  "chapter_mainline": "从输入影响查询，到结构分离防护",
+  "capability_goals": [
+    "解释 SQL 注入的形成条件与根因",
+    "在 DVWA 中观察和复现基础 SQL 注入现象",
+    "区分普通 SQL 注入与盲注在证据层的差异",
+    "比较 Low 与 Medium 在控制思路上的差异",
+    "从参数化查询、错误处理和最小权限角度解释防护链条"
+  ],
+  "tasks": [
+    {
+      "name": "数据库与查询条件基础说明",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "输入条件—数据库查询—返回结果",
+        "为什么页面功能与数据库有关",
+        "输入如何进入查询条件"
+      ]
+    },
+    {
+      "name": "DVWA SQL Injection Low 现象记录",
+      "score": 4.0,
+      "required": true,
+      "semantic_requirements": [
+        "实验目标或页面",
+        "普通输入与异常输入对比",
+        "返回差异",
+        "为什么不像正常查询变化"
+      ]
+    },
+    {
+      "name": "机制分析与差异比较",
+      "score": 4.5,
+      "required": true,
+      "semantic_requirements": [
+        "输入—拼接—解析—执行—回显或行为差异链条",
+        "Low与Medium差异",
+        "普通SQL注入与盲注差异",
+        "根因是结构被污染而不是字符本身"
+      ]
+    },
+    {
+      "name": "SQL注入防护清单与解释",
+      "score": 3.5,
+      "required": true,
+      "semantic_requirements": [
+        "参数化查询",
+        "输入校验",
+        "错误处理",
+        "最小权限",
+        "各措施控制的是根因、暴露面还是后果范围"
+      ]
+    }
+  ],
+  "relation_item_name": "SQL注入因果链/防护关系图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "redlines": [
+    {
+      "name": "未脱敏",
+      "description": "截图、参数、账号或其他敏感信息未按要求脱敏",
+      "action": "lt_60"
+    },
+    {
+      "name": "超出授权边界",
+      "description": "对未授权真实目标进行 SQL 注入测试或验证",
+      "action": "lt_60"
+    },
+    {
+      "name": "证据伪造或不可追溯",
+      "description": "实验记录、现象截图或说明与实际过程严重不一致",
+      "action": "lt_60"
+    },
+    {
+      "name": "高度雷同或抄袭代做",
+      "description": "与他人作业高度雷同，或存在抄袭、代做情形",
+      "action": "lt_60"
+    }
+  ],
+  "professional_checks": [
+    "是否区分正常查询结果变化与查询逻辑被改变",
+    "是否避免把 payload 或特殊字符本身写成根因",
+    "是否说明盲注与普通 SQL 注入共享同一根因，只是证据形式不同",
+    "是否区分过滤、参数化查询、错误处理和最小权限的控制层次",
+    "是否对授权边界、复现实验和风险表达给出负责任说明"
+  ],
+  "default_tags": [
+    "T1",
+    "T2",
+    "E1",
+    "E2",
+    "M1",
+    "R2",
+    "B1",
+    "P1",
+    "C1"
+  ]
+}

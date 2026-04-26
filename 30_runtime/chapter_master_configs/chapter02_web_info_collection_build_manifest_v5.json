@@ -1,0 +1,24 @@
+{
+  "schema_version": "v5.0",
+  "generator": "build_chapter_assets_v5.py",
+  "generated_at": "2026-04-26",
+  "input_file": "30_runtime/chapter_master_configs/chapter02_web_info_collection.yaml",
+  "chapter_id": "chapter02_web_info_collection",
+  "profile_file": "40_evaluation/runtime/chapter_profiles/chapter02_web_info_collection.json",
+  "lesson_input_file": "50_assets/课堂实施方案/chapter02_web_info_collection/lesson_script_input_v5.yaml",
+  "assignment_outputs": {
+    "teacher_pack": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_教师端作业包_v5.0.md",
+    "student_sheet": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_学生版作业说明单_v5.0.md",
+    "teacher_acceptance": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_教师验收表_v5.0.md",
+    "feedback_template": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_班级级教学反馈模板_v5.0.md",
+    "score_summary": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_任务分值与红线摘要_v5.0.md",
+    "manifest": "50_assets/assignment_packs/chapter02_web_info_collection/第二章 Web信息收集与请求分析_生成清单_v5.0.json"
+  },
+  "lesson_outputs": {
+    "lesson_script": "50_assets/课堂实施方案/chapter02_web_info_collection/第二章 Web信息收集与请求分析_课堂实施方案_v5.0.md",
+    "lesson_manifest": "50_assets/课堂实施方案/chapter02_web_info_collection/第二章 Web信息收集与请求分析_课堂实施方案_生成清单_v5.0.json"
+  },
+  "status": "ok",
+  "validation_errors": [],
+  "chapter_manifest": "30_runtime/chapter_master_configs/chapter02_web_info_collection_build_manifest_v5.json"
+}

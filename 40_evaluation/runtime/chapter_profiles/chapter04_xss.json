@@ -1,0 +1,114 @@
+{
+  "schema_version": "v5.0",
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第四章 XSS漏洞与防护",
+  "chapter_mainline": "从浏览器解析与输出上下文，到脚本执行控制",
+  "capability_goals": [
+    "解释浏览器不仅显示内容，还会在不同上下文中解析和执行内容",
+    "区分 Reflected XSS、Stored XSS、DOM XSS 的形成路径差异",
+    "在 DVWA 中观察和记录基础 XSS 现象，并说明输入、输出与执行的关系",
+    "比较 Low 与 Medium 在防护思路上的差异，而不是只记绕过样例",
+    "用“输入—输出—解析—执行”的链条解释风险与防护重点"
+  ],
+  "tasks": [
+    {
+      "name": "浏览器解析与输出上下文基础说明",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "浏览器会解析而不只是显示内容",
+        "至少2种输出位置或上下文",
+        "为什么同样输入会有不同风险",
+        "至少1个安全关注点"
+      ]
+    },
+    {
+      "name": "Reflected XSS Low 现象记录",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "实验页面或目标",
+        "输入点与即时回显",
+        "执行或页面变化现象",
+        "为什么属于即时回显路径"
+      ]
+    },
+    {
+      "name": "Stored XSS Low 现象记录",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "实验页面或目标",
+        "输入被保存的证据",
+        "后续访问中的持续影响",
+        "为什么与反射型不同"
+      ]
+    },
+    {
+      "name": "DOM XSS 与类型差异分析",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "DOM XSS 的基本现象或路径",
+        "为什么更接近前端环境变化",
+        "至少1个与 Reflected/Stored 的差异",
+        "输入—输出—解析链条解释"
+      ]
+    },
+    {
+      "name": "Low/Medium 对照与 XSS 防护清单",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "Low 与 Medium 至少1项差异",
+        "说明有限过滤的局限",
+        "输出编码或上下文安全控制",
+        "至少3条防护建议"
+      ]
+    }
+  ],
+  "relation_item_name": "XSS类型差异与风险链关系图/表",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "redlines": [
+    {
+      "name": "未脱敏",
+      "description": "截图、账号、Cookie 或其他敏感信息未按要求脱敏",
+      "action": "lt_60"
+    },
+    {
+      "name": "超出授权边界",
+      "description": "对未授权真实目标进行 XSS 观察、验证或其他测试",
+      "action": "lt_60"
+    },
+    {
+      "name": "证据伪造或不可追溯",
+      "description": "现象截图、说明与实验过程明显不一致，无法支撑结论",
+      "action": "lt_60"
+    },
+    {
+      "name": "高度雷同或抄袭代做",
+      "description": "与他人作业高度雷同，或存在抄袭、代做情形",
+      "action": "lt_60"
+    }
+  ],
+  "professional_checks": [
+    "是否区分服务器返回内容与浏览器执行内容",
+    "是否说明 XSS 的根因是输出上下文失控，而不是单纯“输入了脚本”",
+    "是否区分 Reflected、Stored、DOM XSS 的路径差异",
+    "是否区分有限过滤、输出编码、CSP 等控制层次",
+    "是否对授权边界、风险传播范围和防护重点给出负责任表达"
+  ],
+  "default_tags": [
+    "T1",
+    "T2",
+    "E1",
+    "E2",
+    "M1",
+    "R1",
+    "R2",
+    "B1",
+    "P1",
+    "C1"
+  ]
+}

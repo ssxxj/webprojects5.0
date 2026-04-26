@@ -1,0 +1,114 @@
+{
+  "schema_version": "v5.0",
+  "course_name": "Web应用安全与防护",
+  "chapter_name": "第七章 身份认证、会话与访问控制",
+  "chapter_mainline": "从身份确认，到持续信任、请求来源与最终放行边界",
+  "capability_goals": [
+    "区分认证、会话、请求来源校验与访问控制的不同职责",
+    "在授权环境中观察 Brute Force、Weak Session IDs、CSRF 的基础现象",
+    "解释认证成本、会话随机性、来源校验与权限放行的关系",
+    "说明为什么“已登录”不能替代来源校验和访问控制",
+    "用“身份—状态—来源—权限”的链条解释风险与防护"
+  ],
+  "tasks": [
+    {
+      "name": "认证、会话与访问控制系统模型",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "认证负责什么",
+        "会话负责什么",
+        "访问控制负责什么",
+        "至少1个从登录到敏感操作的流程场景"
+      ]
+    },
+    {
+      "name": "Brute Force Low/Medium 观察与分析",
+      "score": 4.0,
+      "required": true,
+      "semantic_requirements": [
+        "至少1个暴力破解实验现象",
+        "Low 与 Medium 至少1项差异",
+        "说明为什么属于认证成本问题",
+        "至少2个控制点"
+      ]
+    },
+    {
+      "name": "Weak Session IDs 机制说明",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "会话值出现位置",
+        "可预测性或随机性线索",
+        "为什么会破坏持续信任",
+        "认证与会话的差异"
+      ]
+    },
+    {
+      "name": "CSRF 现象与来源校验分析",
+      "score": 3.0,
+      "required": true,
+      "semantic_requirements": [
+        "CSRF 的基础现象或流程",
+        "为什么不是密码泄露问题",
+        "会话可信不等于请求可信",
+        "至少1种来源校验思路"
+      ]
+    },
+    {
+      "name": "访问控制与身份安全加固清单",
+      "score": 2.0,
+      "required": true,
+      "semantic_requirements": [
+        "访问控制不能由是否登录替代",
+        "至少4条加固建议",
+        "说明建议对应身份、状态、来源或权限哪一环",
+        "至少1个最小权限思路"
+      ]
+    }
+  ],
+  "relation_item_name": "认证—会话—请求来源—访问控制流程图/关系图",
+  "relation_item_score": 3.0,
+  "self_eval_score": 2.0,
+  "redlines": [
+    {
+      "name": "未脱敏",
+      "description": "截图、账号、Cookie、SessionID 或其他敏感信息未按要求脱敏",
+      "action": "lt_60"
+    },
+    {
+      "name": "超出授权边界",
+      "description": "对未授权真实目标进行认证、会话或来源相关测试",
+      "action": "lt_60"
+    },
+    {
+      "name": "证据伪造或不可追溯",
+      "description": "现象截图、实验过程或说明明显无法支撑结论",
+      "action": "lt_60"
+    },
+    {
+      "name": "高度雷同或抄袭代做",
+      "description": "与他人作业高度雷同，或存在抄袭、代做情形",
+      "action": "lt_60"
+    }
+  ],
+  "professional_checks": [
+    "是否区分认证、会话、来源校验和访问控制四个环节",
+    "是否说明暴力破解更接近认证成本设计问题，而不只是弱口令问题",
+    "是否说明会话值的随机性与不可预测性是持续信任的基础",
+    "是否说明 CSRF 的根因是来源与意图失配，而不是密码泄露",
+    "是否说明“已登录”不能替代访问控制，并对授权边界给出负责任表达"
+  ],
+  "default_tags": [
+    "T1",
+    "T2",
+    "E1",
+    "E2",
+    "M1",
+    "R1",
+    "R2",
+    "B1",
+    "P1",
+    "C1"
+  ]
+}
