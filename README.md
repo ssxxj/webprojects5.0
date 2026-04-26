@@ -173,27 +173,28 @@ python3 10_memory/runtime/memory_update_v5.py \
 当前还已生成首个正式讲义迁移样本：
 
 - `50_assets/章节讲义/chapter02_web_info_collection/`
-当前还已迁入第一章讲义资产：
+当前还已迁入第二章讲义资产：
 
 - `50_assets/章节讲义/chapter01_http_request_response/`
-当前还已迁入第三章讲义资产：
+当前还已迁入第一章讲义资产：
 
 - `50_assets/章节讲义/chapter03_sql_injection/`
-当前还已迁入第四章讲义资产：
+当前还已迁入第三章讲义资产：
 
 - `50_assets/章节讲义/chapter04_xss/`
-当前还已迁入第五章讲义资产：
+当前还已迁入第四章讲义资产：
 
 - `50_assets/章节讲义/chapter05_file_upload/`
-当前还已迁入第六章讲义资产：
+当前还已迁入第五章讲义资产：
 
 - `50_assets/章节讲义/chapter06_command_injection/`
-当前还已迁入第七章讲义资产：
+当前还已迁入第六章讲义资产：
 
 - `50_assets/章节讲义/chapter07_auth_session_access_control/`
-当前还已迁入第八章讲义资产：
+当前还已迁入第七章讲义资产：
 
-- `50_assets/章节讲义/chapter08_integrated_review_project/`
+- `50_assets/章节讲义/chapter08_integrated_review_project/` 
+当前还已迁入第八章讲义资产
 
 ## 5. 目录说明
 
