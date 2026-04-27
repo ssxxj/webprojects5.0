@@ -16,6 +16,7 @@ projects5.0 通用作业评估引擎
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import re
 from dataclasses import asdict, dataclass, field
@@ -25,7 +26,6 @@ from typing import Any, Iterable
 
 import fitz
 from openpyxl import load_workbook
-from rapidocr_onnxruntime import RapidOCR
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -683,14 +683,23 @@ def summarize_profile(profile: ChapterProfile) -> dict[str, Any]:
 
 class OCRExtractor:
     def __init__(self) -> None:
-        self.ocr = RapidOCR()
+        self.ocr = None
+        self.ocr_available = False
+        self.ocr_error = ""
+        try:
+            rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
+            self.ocr = rapidocr_module.RapidOCR()
+            self.ocr_available = True
+        except Exception as exc:  # pragma: no cover - 依赖环境差异导致，测试不稳定
+            self.ocr_available = False
+            self.ocr_error = str(exc)
 
     def extract_pdf_text(self, pdf_path: Path) -> tuple[str, int]:
         doc = fitz.open(pdf_path)
         pages: list[str] = []
         for page in doc:
             text = normalize_text(page.get_text("text"))
-            if len(text) < 120:
+            if len(text) < 120 and self.ocr_available and self.ocr is not None:
                 pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
                 result, _ = self.ocr(pix.tobytes("png"))
                 if result:
