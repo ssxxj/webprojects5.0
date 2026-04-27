@@ -4,6 +4,7 @@ import json
 import shutil
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -233,6 +234,58 @@ class Projects5RuntimeTests(unittest.TestCase):
         self.assertEqual(updated.cell(row=1, column=3).value, "测试章 v5.0分数")
         self.assertEqual(updated.cell(row=2, column=3).value, 88)
         self.assertEqual(updated.cell(row=2, column=6).value, "补强机制解释。")
+
+    def test_optional_rapidocr_import_failure_is_non_fatal(self) -> None:
+        with patch.object(eval_engine.importlib, "import_module", side_effect=ImportError("missing rapidocr")):
+            extractor = eval_engine.OCRExtractor()
+        self.assertFalse(extractor.ocr_available)
+        self.assertIsNone(extractor.ocr)
+        self.assertIn("RapidOCR 初始化失败", extractor.ocr_error)
+
+    def test_ocr_runtime_error_falls_back_to_page_text(self) -> None:
+        class FakePix:
+            def tobytes(self, _fmt: str) -> bytes:
+                return b"png"
+
+        class FakePage:
+            def get_text(self, _mode: str) -> str:
+                return "短文本"
+
+            def get_pixmap(self, matrix=None, alpha=False):  # noqa: ARG002
+                return FakePix()
+
+        class FakeDoc:
+            page_count = 1
+
+            def __iter__(self):
+                return iter([FakePage()])
+
+            def close(self) -> None:
+                return None
+
+        def fake_ocr(_img):
+            raise RuntimeError("boom")
+
+        fake_open = lambda _path: FakeDoc()
+        fake_fitz = types.SimpleNamespace(open=fake_open, Matrix=eval_engine.fitz.Matrix)
+
+        with patch.object(eval_engine, "fitz", fake_fitz):
+            extractor = eval_engine.OCRExtractor()
+            extractor.ocr = fake_ocr
+            extractor.ocr_available = True
+            text, page_count = extractor.extract_pdf_text(Path("demo.pdf"))
+
+        self.assertEqual(page_count, 1)
+        self.assertEqual(text, "短文本")
+        self.assertFalse(extractor.ocr_available)
+        self.assertIn("OCR 执行失败", extractor.ocr_runtime_error)
+
+    def test_ocr_status_dict_contains_expected_fields(self) -> None:
+        extractor = eval_engine.OCRExtractor()
+        status = extractor.status_dict()
+        self.assertIn("available", status)
+        self.assertIn("init_error", status)
+        self.assertIn("runtime_error", status)
 
     def test_preflight_reports_release_ready_on_clean_project(self) -> None:
         self.assertEqual(self._run_build_single(), 0)

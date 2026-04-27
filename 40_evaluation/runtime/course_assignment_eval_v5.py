@@ -16,6 +16,7 @@ projects5.0 通用作业评估引擎
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import re
 from dataclasses import asdict, dataclass, field
@@ -25,7 +26,6 @@ from typing import Any, Iterable
 
 import fitz
 from openpyxl import load_workbook
-from rapidocr_onnxruntime import RapidOCR
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -681,25 +681,64 @@ def summarize_profile(profile: ChapterProfile) -> dict[str, Any]:
     }
 
 
+def build_rapidocr_instance() -> tuple[Any | None, str]:
+    try:
+        rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
+        rapidocr_cls = getattr(rapidocr_module, "RapidOCR", None)
+        if rapidocr_cls is None:
+            return None, "rapidocr_onnxruntime 中未找到 RapidOCR。"
+        return rapidocr_cls(), ""
+    except Exception as exc:
+        return None, f"RapidOCR 初始化失败：{exc}"
+
+
 class OCRExtractor:
     def __init__(self) -> None:
-        self.ocr = RapidOCR()
+        self.ocr, self.ocr_error = build_rapidocr_instance()
+        self.ocr_available = self.ocr is not None
+        self.ocr_runtime_error = ""
+
+    @staticmethod
+    def _join_ocr_lines(result: Any) -> str:
+        if not isinstance(result, list):
+            return ""
+        lines: list[str] = []
+        for item in result:
+            if isinstance(item, (list, tuple)) and len(item) > 1:
+                lines.append(str(item[1]))
+            elif isinstance(item, str):
+                lines.append(item)
+        return "\n".join(lines).strip()
+
+    def status_dict(self) -> dict[str, Any]:
+        return {
+            "available": self.ocr_available,
+            "init_error": self.ocr_error or "",
+            "runtime_error": self.ocr_runtime_error or "",
+        }
 
     def extract_pdf_text(self, pdf_path: Path) -> tuple[str, int]:
         doc = fitz.open(pdf_path)
-        pages: list[str] = []
-        for page in doc:
-            text = normalize_text(page.get_text("text"))
-            if len(text) < 120:
-                pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
-                result, _ = self.ocr(pix.tobytes("png"))
-                if result:
-                    ocr_text = "\n".join(item[1] for item in result)
-                    text = normalize_text(f"{text}\n{ocr_text}".strip())
-            pages.append(text)
-        page_count = doc.page_count
-        doc.close()
-        return "\n\n".join(pages).strip(), page_count
+        try:
+            pages: list[str] = []
+            for page in doc:
+                text = normalize_text(page.get_text("text"))
+                if len(text) < 120 and self.ocr_available and self.ocr is not None:
+                    try:
+                        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+                        ocr_output = self.ocr(pix.tobytes("png"))
+                        result = ocr_output[0] if isinstance(ocr_output, tuple) else ocr_output
+                        ocr_text = self._join_ocr_lines(result)
+                        if ocr_text:
+                            text = normalize_text(f"{text}\n{ocr_text}".strip())
+                    except Exception as exc:
+                        self.ocr_runtime_error = f"OCR 执行失败：{exc}"
+                        self.ocr_available = False
+                pages.append(text)
+            page_count = doc.page_count
+            return "\n\n".join(pages).strip(), page_count
+        finally:
+            doc.close()
 
 
 def build_heading_patterns(name: str, index: int) -> list[str]:
@@ -3751,6 +3790,7 @@ def main() -> None:
             json.dumps(
                 {
                     "profile": summarize_profile(profile),
+                    "ocr_status": extractor.status_dict(),
                     "result": {
                         "file_path": outcome.file_path,
                         "student_id": outcome.student_id,
@@ -3773,6 +3813,7 @@ def main() -> None:
     if args.dir:
         roster = load_roster(args.excel) if args.excel else None
         payload = score_pdf_directory(args.dir, profile, extractor, roster=roster)
+        payload["ocr_status"] = extractor.status_dict()
         outcomes = [
             SubmissionOutcome(
                 file_path=item.get("file_path"),
