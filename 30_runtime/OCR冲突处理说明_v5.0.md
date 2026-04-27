@@ -42,3 +42,32 @@ git commit
 
 ## 五、一句话结论
 这不是“系统坏了”，而是“两个分支都改了同一块代码”。按上面流程保留 OCR 的降级与状态输出能力，就能安全合并。
+
+## 六、你截图这个冲突应当怎么点
+你图里冲突发生在 `build_rapidocr_instance()` 和 `OCRExtractor` 初始化段，建议直接点 **“接受两种更改”**，然后把冲突块手动整理成下面这版（删除所有 `<<<<<<< ======= >>>>>>>` 标记）：
+
+```python
+def build_rapidocr_instance() -> tuple[Any | None, str]:
+    try:
+        rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
+        rapidocr_cls = getattr(rapidocr_module, "RapidOCR", None)
+        if rapidocr_cls is None:
+            return None, "rapidocr_onnxruntime 中未找到 RapidOCR。"
+        return rapidocr_cls(), ""
+    except Exception as exc:
+        return None, f"RapidOCR 初始化失败：{exc}"
+
+
+class OCRExtractor:
+    def __init__(self) -> None:
+        self.ocr, self.ocr_error = build_rapidocr_instance()
+        self.ocr_available = self.ocr is not None
+        self.ocr_runtime_error = ""
+```
+
+原因：这版同时保留了“可选依赖不崩溃”和“更清晰错误信息/运行期状态追踪”两方面能力。
+
+### 点完后的 3 个快速自检
+1. 文件内不再有 `<<<<<<<`、`=======`、`>>>>>>>`。
+2. `OCRExtractor.__init__` 里有 `self.ocr_runtime_error = ""`。
+3. `build_rapidocr_instance()` 的 `except` 返回的是 `RapidOCR 初始化失败：...`。
