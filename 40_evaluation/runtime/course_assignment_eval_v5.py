@@ -681,18 +681,21 @@ def summarize_profile(profile: ChapterProfile) -> dict[str, Any]:
     }
 
 
+def build_rapidocr_instance() -> tuple[Any | None, str]:
+    try:
+        rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
+        rapidocr_cls = getattr(rapidocr_module, "RapidOCR", None)
+        if rapidocr_cls is None:
+            return None, "rapidocr_onnxruntime 中未找到 RapidOCR。"
+        return rapidocr_cls(), ""
+    except (ImportError, OSError, AttributeError) as exc:
+        return None, str(exc)
+
+
 class OCRExtractor:
     def __init__(self) -> None:
-        self.ocr = None
-        self.ocr_available = False
-        self.ocr_error = ""
-        try:
-            rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
-            self.ocr = rapidocr_module.RapidOCR()
-            self.ocr_available = True
-        except Exception as exc:  # pragma: no cover - 依赖环境差异导致，测试不稳定
-            self.ocr_available = False
-            self.ocr_error = str(exc)
+        self.ocr, self.ocr_error = build_rapidocr_instance()
+        self.ocr_available = self.ocr is not None
 
     def extract_pdf_text(self, pdf_path: Path) -> tuple[str, int]:
         doc = fitz.open(pdf_path)
