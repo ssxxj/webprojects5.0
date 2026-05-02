@@ -17,17 +17,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
-from datetime import date
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT / "30_runtime"))
-
-from project_paths_v5 import project_relative, relativize_mapping  # type: ignore  # noqa: E402
 
 
 @dataclass
@@ -153,9 +145,6 @@ def normalize_filename(name: str) -> str:
 
 def load_profile(path: Path) -> ChapterProfile:
     raw = json.loads(path.read_text(encoding="utf-8"))
-    schema_version = raw.get("schema_version")
-    if schema_version and schema_version != "v5.0":
-        raise ValueError(f"不支持的 schema_version：{schema_version}；当前脚本只接受 v5.0。")
     return ChapterProfile(
         course_name=raw["course_name"],
         chapter_name=raw["chapter_name"],
@@ -317,6 +306,7 @@ def render_dimension_deductions(profile: ChapterProfile) -> str:
         f"{profile.relation_item_name} 已提交但主要停留在工具解释、未体现关系链：按“部分完成”扣分。",
         "学生自评表、关键字段、局部格式问题：原则上只做小幅扣分，不直接封顶。",
         "AI输出审核与人工复核记录缺失：在专业校验与责任意识、表达结构中扣分，不直接按红线处理。",
+        "引用 Wikipedia、Netsparker、Bobby Tables 等学习资料链接，不自动等于“超出授权边界”；必须结合实验目标、请求截图和操作描述人工复核。",
     ]
     return "\n".join(f"{index}. {item}" for index, item in enumerate(generic, start=1))
 
@@ -557,6 +547,10 @@ def build_student_sheet(
    - 合格写法至少要说明“能说明什么 / 不能替代什么 / 下一步为什么是这个”。
 4. 必交 AI输出审核与人工复核记录（必填）
 5. 必交学生自评表
+6. 收口项格式要求：
+   - 推荐直接保留下面 `AI输出审核与人工复核记录` 与 `学生自评表` 的标题原文作答，最稳妥。
+   - 若确实使用等价写法，需保持结构完整；例如 `任务6：自评`、`收口项2 学生自评`、`六、学生自评`、`AI 输出审核记录` 这类写法可识别，但不建议随意改标题。
+   - 若引用 Wikipedia、Netsparker、Bobby Tables 等学习资料，请单列到“参考资料”，不要写入“实验目标/测试目标/请求目标”字段。
 
 ## 四、你要按四步完成
 
@@ -600,6 +594,12 @@ def build_student_sheet(
 
 ## 七、AI输出审核与人工复核记录（必填）
 
+填写要求：
+
+1. 推荐直接保留下面 6 个字段标题原文后再填写，最利于教师验收与系统识别。
+2. 若写成 `AI 输出审核记录` 等等价标题，也必须保留“是否使用 AI / 保留 / 删改 / 核实 / 边界判断”这些核心字段。
+3. 若引用外部学习资料，请放在单独的“参考资料”块，不要混入实验目标、请求目标或验证目标描述。
+
 ```text
 {AI_REVIEW_TEMPLATE}
 ```
@@ -641,6 +641,12 @@ def build_student_sheet(
 
 ## 十二、学生自评表
 
+填写要求：
+
+1. 推荐直接保留下面 6 个标题原文作答，便于教师验收与系统识别。
+2. 若使用等价写法，如 `任务6：自评`、`收口项2 学生自评`、`六、学生自评`，也必须覆盖“最清楚 / 最容易混淆 / 最需要教师复核 / 如果重做会改什么”等核心问题。
+3. 你可以在每个标题后自由展开，但不要删掉这些核心问题。
+
 ```text
 {SELF_EVAL_TEMPLATE}
 ```
@@ -675,6 +681,9 @@ def build_teacher_acceptance(profile: ChapterProfile) -> str:
 - [ ] 抄袭/代做/其他课程禁止行为
 
 教师说明：
+- 引用学习资料链接、百科链接或文档链接，不自动等于“超出授权边界”；需结合实验目标、页面 URL、请求截图与操作描述人工判断。
+- 学生若保留了同义但结构化的 `AI输出审核与人工复核记录` / `学生自评表`，可视为已提交，不要求逐字一致。
+- 可接受的等价例子包括：`任务6：自评`、`收口项2 学生自评`、`六、学生自评`、`AI 输出审核记录`；判断依据应回到结构字段是否完整，而不是只看标题字面。
 
 ## 二、任务验收
 
@@ -876,12 +885,9 @@ def build_score_summary(profile: ChapterProfile) -> str:
 
 def build_manifest(profile: ChapterProfile, generated_files: dict[str, str], args: argparse.Namespace) -> dict[str, Any]:
     return {
-        "schema_version": "v5.0",
         "course_name": profile.course_name,
         "chapter_name": profile.chapter_name,
         "chapter_mainline": profile.chapter_mainline,
-        "generator": "generate_assignment_pack_v5.py",
-        "generated_at": str(date.today()),
         "task_count": len(profile.tasks),
         "task_score_total": round(sum(task.score for task in profile.tasks), 2),
         "relation_item_name": profile.relation_item_name,
@@ -892,7 +898,7 @@ def build_manifest(profile: ChapterProfile, generated_files: dict[str, str], arg
         "submission_format": args.submission_format,
         "suggested_duration": args.duration,
         "submission_naming": args.naming,
-        "generated_files": relativize_mapping(generated_files, PROJECT_ROOT),
+        "generated_files": generated_files,
     }
 
 
@@ -978,8 +984,8 @@ def main() -> int:
         json.dumps(
             {
                 "chapter_name": profile.chapter_name,
-                "output_dir": project_relative(outdir, PROJECT_ROOT),
-                "generated_files": {key: project_relative(path, PROJECT_ROOT) for key, path in files.items()},
+                "output_dir": str(outdir),
+                "generated_files": {key: str(path) for key, path in files.items()},
             },
             ensure_ascii=False,
             indent=2,

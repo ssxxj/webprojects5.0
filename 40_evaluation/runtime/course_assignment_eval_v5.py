@@ -16,7 +16,6 @@ projects5.0 通用作业评估引擎
 from __future__ import annotations
 
 import argparse
-import importlib
 import json
 import re
 from dataclasses import asdict, dataclass, field
@@ -26,6 +25,7 @@ from typing import Any, Iterable
 
 import fitz
 from openpyxl import load_workbook
+from rapidocr_onnxruntime import RapidOCR
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -38,13 +38,6 @@ from reportlab.platypus import LongTable, Paragraph, SimpleDocTemplate, Spacer, 
 URL_RE = re.compile(r"https?://[^\s)\]>\"'，。]+", re.IGNORECASE)
 DOMAIN_RE = re.compile(r"\b(?:[a-z0-9-]+\.)+[a-z]{2,}\b", re.IGNORECASE)
 IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-EMAIL_RE = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)
-PHONE_RE = re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")
-ID_CARD_RE = re.compile(r"(?<!\d)\d{6}(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dXx](?!\d)")
-API_KEY_RE = re.compile(
-    r"\b(?:sk-[A-Za-z0-9_-]{12,}|AKIA[0-9A-Z]{12,}|AIza[0-9A-Za-z_-]{16,}|[A-Za-z0-9_-]{24,}\.[A-Za-z0-9_-]{6,}\.[A-Za-z0-9_-]{20,})\b"
-)
-DOC_EXAMPLE_IP_RE = re.compile(r"^(?:192\.0\.2|198\.51\.100|203\.0\.113)\.")
 PRIVATE_IP_RE = re.compile(
     r"^(?:127\.0\.0\.1|localhost|10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})$",
     re.IGNORECASE,
@@ -103,14 +96,91 @@ SIMILARITY_REMOVALS = [
     "人工审核痕迹",
     "人工复核痕迹",
 ]
+REFERENCE_DOMAIN_HINTS = [
+    "wikipedia",
+    "wikipe",
+    "netsparker",
+    "notsparker",
+    "bobby-tables",
+    "pentestmonkey",
+    "owasp",
+    "lowasp",
+    "node.js",
+    "php.net",
+    "mysql.com",
+]
+REFERENCE_CONTEXT_HINTS = [
+    "参考",
+    "引用",
+    "来源",
+    "资料",
+    "文档",
+    "百科",
+    "维基",
+    "文章",
+    "教程",
+    "说明",
+    "概念",
+    "定义",
+    "原理",
+    "链接",
+    "学习资料",
+]
+LIVE_TARGET_STRONG_CONTEXT_HINTS = [
+    "实验目标",
+    "测试目标",
+    "目标站点",
+    "目标域名",
+    "目标ip",
+    "目标 ip",
+    "扫描目标",
+    "抓包目标",
+    "访问目标",
+    "请求url",
+    "request url",
+    "注入目标",
+    "上传目标",
+]
+LIVE_TARGET_WEAK_CONTEXT_HINTS = [
+    "测试",
+    "验证",
+    "注入",
+    "扫描",
+    "抓包",
+    "探测",
+    "攻击",
+    "访问",
+    "请求",
+    "页面",
+    "url",
+    "参数",
+    "payload",
+    "回显",
+    "响应",
+    "返回",
+    "漏洞",
+]
+AI_REVIEW_SECTION_PATTERNS = [r"(?m)^\s*.*AI\s*输出审核.*$", r"(?m)^\s*.*人工复核.*$", r"(?m)^\s*.*人工审核痕迹.*$"]
+AI_REVIEW_WINDOW_ANCHORS = ["AI输出审核", "AI 输出审核", "AI输出审核记录", "AI 输出审核记录", "人工复核", "人工审核痕迹", "人工复核与修改"]
+SELF_EVAL_SIGNAL_GROUPS = [
+    ["任务完成情况", "完成情况"],
+    ["机制理解", "关系链理解", "我本章最清楚的一点", "我最容易混淆的一点"],
+    ["证据质量", "最需要教师复核", "最需要老师复核", "最需要教师帮助复核"],
+    ["边界与风险", "如果重做一次", "本次最需要改进", "最需要改进的一项"],
+]
+SELF_EVAL_SECTION_PATTERNS = [
+    r"(?m)^\s*.*学生自评表.*$",
+    r"(?m)^\s*.*学生自评.*$",
+    r"(?m)^\s*.*自评表.*$",
+    r"(?m)^\s*.*任务\s*[56六七]\s*[:：]\s*自评.*$",
+    r"(?m)^\s*.*收口项\s*2\s*[:：]?\s*学生自评.*$",
+]
+SELF_EVAL_WINDOW_ANCHORS = ["学生自评表", "学生自评", "自评表", "任务6：自评", "任务6:自评", "收口项2", "收口项 2"]
+SELF_EVAL_HEADING_RE = re.compile(
+    r"(学生自评表|学生自评|自评表|任务\s*[56六七]\s*[:：]\s*自评|收口项\s*2\s*[:：]?\s*学生自评)",
+    re.IGNORECASE,
+)
 CN_NUMS = "一二三四五六七八九十"
-SENSITIVE_SCAN_ALLOWED_DOMAINS = {
-    "example.com",
-    "example.org",
-    "example.net",
-    "localhost",
-    "dvwa.local",
-}
 
 
 @dataclass
@@ -175,6 +245,11 @@ def contains_any(text: str, patterns: Iterable[str]) -> bool:
     return any(pattern in text for pattern in patterns)
 
 
+def contains_any_ci(text: str, patterns: Iterable[str]) -> bool:
+    lowered = text.lower()
+    return any(pattern.lower() in lowered for pattern in patterns)
+
+
 def count_hits(text: str, patterns: Iterable[str]) -> int:
     return sum(1 for pattern in patterns if pattern in text)
 
@@ -185,17 +260,6 @@ def count_regex(text: str, pattern: str) -> int:
 
 def safe_snippet(text: str, limit: int = 220) -> str:
     return normalize_text(text).replace("\n", " ")[:limit]
-
-
-def mask_sensitive_value(value: str) -> str:
-    value = value.strip()
-    if len(value) <= 6:
-        return "*" * len(value)
-    return f"{value[:3]}...{value[-3:]}"
-
-
-def context_for_match(text: str, start: int, end: int, window: int = 48) -> str:
-    return safe_snippet(text[max(0, start - window): min(len(text), end + window)], 140)
 
 
 def clamp(value: float, low: float, high: float) -> float:
@@ -230,6 +294,57 @@ def count_numbered_items(text: str) -> int:
     )
 
 
+def find_candidate_context_windows(text: str, candidate: str, window: int = 90) -> list[str]:
+    windows: list[str] = []
+    for match in re.finditer(re.escape(candidate), text, re.IGNORECASE):
+        start = max(0, match.start() - window)
+        end = min(len(text), match.end() + window)
+        windows.append(text[start:end])
+    return windows
+
+
+def is_probable_reference_or_ocr_domain(candidate: str) -> bool:
+    lowered = candidate.lower().strip().strip(".,;:()[]{}<>\"'")
+    if lowered.endswith((".php", ".html", ".htm", ".js", ".css", ".jsp", ".aspx", ".cgi")):
+        return True
+    if any(hint in lowered for hint in REFERENCE_DOMAIN_HINTS):
+        return True
+    if len(lowered) < 4 or "." not in lowered:
+        return True
+    if not re.fullmatch(r"[a-z0-9.-]+", lowered):
+        return True
+    parts = lowered.split(".")
+    if any(part == "" for part in parts):
+        return True
+    if re.fullmatch(r"[a-f0-9]{16,}", parts[0]):
+        return True
+    if parts[0].isdigit() or all(part.isdigit() for part in parts[:-1]):
+        return True
+    tld = parts[-1]
+    if not re.fullmatch(r"[a-z]{2,15}", tld):
+        return True
+    if contains_any_ci(lowered, ["source.php", "index.php", "sourcelow", "sourcehigh", "sqlisource", "2.blind", "1.sql", "5.orm"]):
+        return True
+    return False
+
+
+def detect_self_eval_trace(text: str) -> dict[str, Any]:
+    normalized = normalize_text(text)
+    if not normalized:
+        return {"present": False, "structured": False, "group_hits": 0, "numbered_items": 0}
+    has_heading = bool(SELF_EVAL_HEADING_RE.search(normalized))
+    group_hits = sum(1 for group in SELF_EVAL_SIGNAL_GROUPS if contains_any_ci(normalized, group))
+    numbered_items = count_numbered_items(normalized)
+    present = has_heading or group_hits >= 2
+    structured = present and (group_hits >= 2 or numbered_items >= 4)
+    return {
+        "present": present,
+        "structured": structured,
+        "group_hits": group_hits,
+        "numbered_items": numbered_items,
+    }
+
+
 def extract_submission_identity(pdf_path: Path) -> tuple[str, str]:
     stem = pdf_path.stem.replace("_", " ").strip()
     stem = re.sub(r"第?[一二三四五六七八九十0-9]+章.*$", "", stem, flags=re.IGNORECASE).strip()
@@ -256,8 +371,6 @@ def is_private_target(value: str) -> bool:
     value = value.strip().lower()
     if not value:
         return False
-    if DOC_EXAMPLE_IP_RE.match(value):
-        return True
     if PRIVATE_IP_RE.match(value):
         return True
     if value.startswith("127.0.0.1") or value.startswith("localhost"):
@@ -267,88 +380,6 @@ def is_private_target(value: str) -> bool:
     if re.match(r"^172\.(?:1[6-9]|2\d|3[01])\.", value):
         return True
     return False
-
-
-def is_allowed_scan_domain(value: str) -> bool:
-    lowered = value.strip().lower().rstrip(".")
-    if not lowered:
-        return True
-    if lowered in SENSITIVE_SCAN_ALLOWED_DOMAINS:
-        return True
-    if lowered.endswith(".test") or lowered.endswith(".invalid") or lowered.endswith(".localhost"):
-        return True
-    if "dvwa" in lowered or "example" in lowered:
-        return True
-    return False
-
-
-def detect_sensitive_exposure(text: str) -> dict[str, Any]:
-    normalized = normalize_text(text)
-    findings: list[dict[str, str]] = []
-
-    def add(kind: str, value: str, start: int, end: int, reason: str) -> None:
-        findings.append(
-            {
-                "kind": kind,
-                "value_preview": mask_sensitive_value(value),
-                "reason": reason,
-                "context": context_for_match(normalized, start, end),
-            }
-        )
-
-    for match in EMAIL_RE.finditer(normalized):
-        email = match.group(0)
-        domain = email.split("@", 1)[-1]
-        if not is_allowed_scan_domain(domain):
-            add("email", email, match.start(), match.end(), "疑似真实邮箱，需确认是否已脱敏或是否属于示例数据。")
-
-    for match in PHONE_RE.finditer(normalized):
-        add("phone", match.group(0), match.start(), match.end(), "疑似手机号，需教师复核是否为真实个人信息。")
-
-    for match in ID_CARD_RE.finditer(normalized):
-        add("id_card", match.group(0), match.start(), match.end(), "疑似身份证号，需教师复核是否为真实个人信息。")
-
-    for match in API_KEY_RE.finditer(normalized):
-        add("api_key_or_token", match.group(0), match.start(), match.end(), "疑似 API key、访问 token 或长密钥片段。")
-
-    for match in SESSION_LEAK_RE.finditer(normalized):
-        if not MASK_HINT_RE.search(context_for_match(normalized, match.start(), match.end(), 80)):
-            add("session_or_auth_token", match.group(0), match.start(), match.end(), "疑似会话或鉴权字段未脱敏。")
-
-    for match in IP_RE.finditer(normalized):
-        ip = match.group(0)
-        if not is_private_target(ip):
-            add("public_ip", ip, match.start(), match.end(), "疑似公网 IP，需确认是否为授权目标、公开示例或应脱敏字段。")
-
-    unique: list[dict[str, str]] = []
-    seen: set[tuple[str, str]] = set()
-    for item in findings:
-        key = (item["kind"], item["value_preview"])
-        if key in seen:
-            continue
-        seen.add(key)
-        unique.append(item)
-
-    return {
-        "has_findings": bool(unique),
-        "mode": "review_only",
-        "finding_count": len(unique),
-        "findings": unique[:12],
-        "policy": "仅生成教师复核提醒，不自动封顶、不替代纪律或红线裁决。",
-    }
-
-
-def attach_sensitive_review(score: int, debug: dict[str, Any], text: str) -> tuple[int, dict[str, Any]]:
-    sensitive_scan = detect_sensitive_exposure(text)
-    debug["sensitive_scan"] = sensitive_scan
-    if sensitive_scan["has_findings"]:
-        review_flags = debug.setdefault("review_flags", [])
-        if "敏感信息扫描需教师复核" not in review_flags:
-            review_flags.append("敏感信息扫描需教师复核")
-        content_issues = debug.setdefault("content_issues", [])
-        if "存在敏感信息复核提醒" not in content_issues:
-            content_issues.append("存在敏感信息复核提醒")
-    return score, debug
 
 
 def find_label_value(text: str, labels: Iterable[str]) -> str:
@@ -413,17 +444,55 @@ def detect_ai_review_trace(text: str) -> dict[str, Any]:
         "人工审核痕迹" in text
         or "人工复核痕迹" in text
         or "AI输出审核与人工复核记录" in text
+        or "AI 输出审核记录" in text
         or "ai输出审核与人工复核记录" in compact
         or "ai输出审核" in compact
+        or "人工复核与修改" in text
     )
-    has_ai_use = contains_any(compact, ["本作业是否使用ai", "未使用ai", "局部使用", "深度使用"])
-    has_keep = contains_any(compact, ["保留了ai输出中的哪2处内容", "保留了ai输出中的哪两处内容", "为什么保留"])
-    has_edit = contains_any(compact, ["删改了ai输出中的哪2处内容", "删改了ai输出中的哪两处内容", "为什么删改", "为什么放弃"])
-    has_verified = contains_any(compact, ["自行核实过的3个专业判断", "自行核实过的三个专业判断"])
-    has_boundary = contains_any(compact, ["最容易误判的一处边界问题", "最容易误判的一个边界问题"])
+    has_ai_use = contains_any(
+        compact,
+        ["本作业是否使用ai", "本作业哪些内容使用过ai", "哪些内容使用过ai", "ai使用情况", "未使用ai", "局部使用", "深度使用"],
+    )
+    has_keep = contains_any(
+        compact,
+        [
+            "保留了ai输出中的哪2处内容",
+            "保留了ai输出中的哪两处内容",
+            "为什么保留",
+            "哪些判断是我自己复核后保留的",
+            "复核后保留",
+        ],
+    )
+    has_edit = contains_any(
+        compact,
+        [
+            "删改了ai输出中的哪2处内容",
+            "删改了ai输出中的哪两处内容",
+            "为什么删改",
+            "为什么放弃",
+            "主动删掉或放弃",
+            "发现ai原始输出不够准确",
+            "进行了修正",
+        ],
+    )
+    has_verified = contains_any(
+        compact,
+        [
+            "自行核实过的3个专业判断",
+            "自行核实过的三个专业判断",
+            "自行核实",
+            "实验验证后确认保留",
+            "验证后确认保留",
+        ],
+    )
+    has_boundary = contains_any(
+        compact,
+        ["最容易误判的一处边界问题", "最容易误判的一个边界问题", "边界问题", "容易误判"],
+    )
     item_hits = sum(1 for value in [has_ai_use, has_keep, has_edit, has_verified, has_boundary] if value)
+    numbered_items = count_numbered_items(text)
     present = has_section or item_hits >= 2
-    complete = present and item_hits >= 4
+    complete = present and (item_hits >= 4 or (item_hits >= 3 and numbered_items >= 4))
     return {
         "has_section": has_section,
         "has_ai_use": has_ai_use,
@@ -432,6 +501,7 @@ def detect_ai_review_trace(text: str) -> dict[str, Any]:
         "has_verified": has_verified,
         "has_boundary": has_boundary,
         "item_hits": item_hits,
+        "numbered_items": numbered_items,
         "present": present,
         "complete": complete,
     }
@@ -588,9 +658,6 @@ def build_suggestion(profile: ChapterProfile, debug: dict[str, Any], submitted: 
         suggestions.append("把目标严格限制为 DVWA、127.0.0.1、localhost 或教师明确授权环境，并在文中写清授权边界。")
     if "与同班作业高度雷同" in hard_gate_reasons:
         suggestions.append("当前存在高度雷同痕迹，需提供原始完成过程并接受人工复核。")
-    sensitive_scan = debug.get("sensitive_scan", {})
-    if sensitive_scan.get("has_findings") and "敏感信息疑似未脱敏" not in hard_gate_reasons:
-        suggestions.append("敏感信息扫描有复核提醒，请检查邮箱、手机号、公网 IP 或长 token 是否为示例数据，必要时重新脱敏。")
 
     professional_errors = debug.get("professional_errors", [])
     if professional_errors:
@@ -630,9 +697,6 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def load_profile(path: Path) -> ChapterProfile:
     raw = _load_json(path)
-    schema_version = raw.get("schema_version")
-    if schema_version and schema_version != "v5.0":
-        raise ValueError(f"不支持的 schema_version：{schema_version}；当前评分脚本只接受 v5.0。")
     tasks = [TaskRule(**item) for item in raw.get("tasks", [])]
     redlines = [RedlineRule(**item) for item in raw.get("redlines", [])]
     return ChapterProfile(
@@ -681,28 +745,16 @@ def summarize_profile(profile: ChapterProfile) -> dict[str, Any]:
     }
 
 
-def build_rapidocr_instance() -> tuple[Any | None, str]:
-    try:
-        rapidocr_module = importlib.import_module("rapidocr_onnxruntime")
-        rapidocr_cls = getattr(rapidocr_module, "RapidOCR", None)
-        if rapidocr_cls is None:
-            return None, "rapidocr_onnxruntime 中未找到 RapidOCR。"
-        return rapidocr_cls(), ""
-    except (ImportError, OSError, AttributeError) as exc:
-        return None, str(exc)
-
-
 class OCRExtractor:
     def __init__(self) -> None:
-        self.ocr, self.ocr_error = build_rapidocr_instance()
-        self.ocr_available = self.ocr is not None
+        self.ocr = RapidOCR()
 
     def extract_pdf_text(self, pdf_path: Path) -> tuple[str, int]:
         doc = fitz.open(pdf_path)
         pages: list[str] = []
         for page in doc:
             text = normalize_text(page.get_text("text"))
-            if len(text) < 120 and self.ocr_available and self.ocr is not None:
+            if len(text) < 120:
                 pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
                 result, _ = self.ocr(pix.tobytes("png"))
                 if result:
@@ -757,8 +809,8 @@ def locate_sections_generic(text: str, profile: ChapterProfile) -> dict[str, str
             ("relation", relation_patterns),
             ("boundary", [r"(?m)^\s*.*授权边界.*$", r"(?m)^\s*.*目标与边界.*$", r"(?m)^\s*.*授权与红线.*$"]),
             ("risk", [r"(?m)^\s*.*风险.*防护.*$", r"(?m)^\s*.*防护.*说明.*$", r"(?m)^\s*.*风险.*说明.*$"]),
-            ("ai_review", [r"(?m)^\s*.*AI输出审核.*$", r"(?m)^\s*.*人工复核.*$", r"(?m)^\s*.*人工审核痕迹.*$"]),
-            ("self_eval", [r"(?m)^\s*.*学生自评表.*$", r"(?m)^\s*.*自评表.*$"]),
+            ("ai_review", AI_REVIEW_SECTION_PATTERNS),
+            ("self_eval", SELF_EVAL_SECTION_PATTERNS),
         ]
     )
 
@@ -794,8 +846,8 @@ def locate_sections_chapter2(text: str) -> dict[str, str]:
         ("mechanism", [r"(?m)^\s*(?:\d+\s*[.．、]?\s*)?机制解释(?:与工具说明)?\s*$"]),
         ("tool_mechanism", [r"(?m)^\s*(?:\d+\s*[.．、]?\s*)?(?:每个工具的最小机制说明|工具机制概述表|工具机制速填表|工具说明)\s*$"]),
         ("risk", [r"(?m)^\s*(?:\d+\s*[.．、]?\s*)?(?:风险\s*/\s*防护说明|风险或防护说明|风险与防护说明|风险说明)\s*$"]),
-        ("ai_review", [r"(?m)^\s*(?:\d+\s*[.．、]?\s*)?(?:人工审核痕迹(?:（必填）)?|人工复核痕迹|AI输出审核与人工复核记录(?:（必填）)?|AI输出审核(?:与人工复核记录)?(?:（必填）)?)\s*$"]),
-        ("self_eval", [r"(?m)^\s*(?:\d+\s*[.．、]?\s*)?(?:学生自评表|自评表)\s*$"]),
+        ("ai_review", AI_REVIEW_SECTION_PATTERNS),
+        ("self_eval", SELF_EVAL_SECTION_PATTERNS),
     ]
     positions: list[tuple[int, str]] = []
     for key, patterns in heading_specs:
@@ -1063,11 +1115,31 @@ def detect_public_targets(text: str) -> list[str]:
     public_targets: list[str] = []
     for candidate in extract_domains(text):
         lowered = candidate.lower()
-        if not is_private_target(lowered) and "dvwa" not in lowered and "localhost" not in lowered:
-            public_targets.append(candidate)
+        if is_private_target(lowered) or "dvwa" in lowered or "localhost" in lowered:
+            continue
+        if is_probable_reference_or_ocr_domain(candidate):
+            continue
+        windows = find_candidate_context_windows(text, candidate)
+        has_reference_context = any(contains_any_ci(window, REFERENCE_CONTEXT_HINTS) for window in windows)
+        has_strong_live_context = any(contains_any_ci(window, LIVE_TARGET_STRONG_CONTEXT_HINTS) for window in windows)
+        has_weak_live_context = any(contains_any_ci(window, LIVE_TARGET_WEAK_CONTEXT_HINTS) for window in windows)
+        if has_reference_context and not has_strong_live_context:
+            continue
+        if not has_strong_live_context and not (has_weak_live_context and not has_reference_context):
+            continue
+        public_targets.append(candidate)
     for ip in IP_RE.findall(text):
-        if not is_private_target(ip):
-            public_targets.append(ip)
+        if is_private_target(ip):
+            continue
+        windows = find_candidate_context_windows(text, ip)
+        has_reference_context = any(contains_any_ci(window, REFERENCE_CONTEXT_HINTS) for window in windows)
+        has_strong_live_context = any(contains_any_ci(window, LIVE_TARGET_STRONG_CONTEXT_HINTS) for window in windows)
+        has_weak_live_context = any(contains_any_ci(window, LIVE_TARGET_WEAK_CONTEXT_HINTS) for window in windows)
+        if has_reference_context and not has_strong_live_context:
+            continue
+        if not has_strong_live_context and not (has_weak_live_context and not has_reference_context):
+            continue
+        public_targets.append(ip)
     unique_targets: list[str] = []
     for item in public_targets:
         if item not in unique_targets:
@@ -1195,8 +1267,8 @@ def chapter1_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["关系图", "链路图", "流程图", "浏览器", "服务器", "数据库"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "控制点", "防护", "安全关注点"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS)
 
     t1_checks = [
         contains_any(task1, ["浏览器"]) and contains_any(task1, ["服务器"]) and contains_any(task1, ["数据库"]),
@@ -1266,7 +1338,7 @@ def chapter1_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["浏览器", "服务器", "数据库", "请求", "响应", "Cookie", "Session", "输入", "处理", "输出", "身份"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     task_completion = sum(task_scores.values()) + relation_eval["score"] + (profile.self_eval_score if self_eval_present else 0.0)
@@ -1529,8 +1601,8 @@ def chapter2_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     tool_mechanism_section = sections.get("tool_mechanism", "") or find_context_window(normalized, ["每个工具的最小机制说明", "Google：", "Whois：", "Shodan：", "Burp", "Nmap"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["目标与授权边界", "授权边界说明", "允许范围", "禁止行为"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险与防护说明", "风险说明", "防护措施", "被动优先"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "任务完成情况", "自评结论"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS + ["任务完成情况", "自评结论"])
 
     t1_checks = [
         contains_any(task1, ["查询语句"]),
@@ -1636,7 +1708,7 @@ def chapter2_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_eval = evaluate_graph_section_chapter2(normalized, relation_section, profile.relation_item_score)
     graph_present = relation_eval["status"] == "complete"
     graph_submitted = bool(relation_eval["submitted"])
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解情况", "证据质量情况", "合规与边界", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
     task_completion = clamp(sum(task_scores.values()) + relation_eval["score"] + (profile.self_eval_score if self_eval_present else 0.0), 0.0, 20.0)
 
@@ -1887,8 +1959,8 @@ def chapter3_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["因果链", "防护关系图", "输入", "拼接", "执行"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "防护", "暴露面", "后果范围"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS)
 
     t1_checks = [
         contains_any(task1, ["输入条件", "查询条件", "条件"]),
@@ -1962,7 +2034,7 @@ def chapter3_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["输入", "拼接", "解析", "执行", "回显", "行为差异", "参数化查询", "最小权限", "防护"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
     task_completion = clamp(sum(task_scores.values()) + relation_eval["score"] + (profile.self_eval_score if self_eval_present else 0.0), 0.0, 20.0)
 
@@ -2019,13 +2091,7 @@ def chapter3_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     expression_points = 5.0 if text_length >= 2400 else (4.0 if text_length >= 1700 else (3.0 if text_length >= 1100 else 1.5))
     expression_score = clamp(structure_points + expression_points, 0.0, 10.0)
 
-    public_targets: list[str] = []
-    for candidate in extract_domains(task2 + "\n" + task3):
-        if not is_private_target(candidate) and "dvwa" not in candidate and "localhost" not in candidate:
-            public_targets.append(candidate)
-    for ip in IP_RE.findall(task2 + "\n" + task3):
-        if not is_private_target(ip):
-            public_targets.append(ip)
+    public_targets = detect_public_targets(task2 + "\n" + task3)
 
     professional_review = build_professional_review(
         normalized,
@@ -2159,8 +2225,8 @@ def chapter4_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["关系图", "关系表", "风险链", "输入", "输出", "解析", "执行"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "传播", "防护", "控制点"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS)
 
     t1_checks = [
         contains_any(task1, ["浏览器"]) and contains_any(task1, ["解析", "解释"]),
@@ -2240,7 +2306,7 @@ def chapter4_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["输入", "输出", "解析", "执行", "浏览器", "Reflected", "Stored", "DOM", "输出编码", "CSP"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     screenshot_markers = count_regex(normalized, SCREENSHOT_MARKER_RE)
@@ -2380,8 +2446,8 @@ def chapter5_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["链路图", "关系图", "上传", "验证", "存储", "访问", "执行"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "控制点", "防护", "残余风险"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS)
 
     t1_checks = [
         contains_any(task1, ["上传"]) and contains_any(task1, ["验证"]) and contains_any(task1, ["存储"]) and contains_any(task1, ["访问"]) and contains_any(task1, ["执行"]),
@@ -2447,7 +2513,7 @@ def chapter5_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["上传", "验证", "存储", "访问", "执行", "控制点", "风险点", "隔离存储", "禁执行"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     screenshot_markers = count_regex(normalized, SCREENSHOT_MARKER_RE)
@@ -2586,8 +2652,8 @@ def chapter6_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["风险链路图", "关系图", "应用层", "系统层", "命令", "执行"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "后果范围", "防护", "控制点"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS)
 
     t1_checks = [
         contains_any(task1, ["应用层"]) and contains_any(task1, ["系统层"]),
@@ -2653,7 +2719,7 @@ def chapter6_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["应用层", "系统层", "输入", "命令", "执行", "结果返回", "参数分离", "最小权限"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     screenshot_markers = count_regex(normalized, SCREENSHOT_MARKER_RE)
@@ -2793,8 +2859,8 @@ def chapter7_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["流程图", "关系图", "认证", "会话", "来源", "权限"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "授权", "允许", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["风险", "防护", "控制点", "权限"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表", "课程反思"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS + ["课程反思"])
 
     t1_checks = [
         contains_any(task1, ["认证"]) and contains_any(task1, ["会话"]) and contains_any(task1, ["访问控制"]),
@@ -2874,7 +2940,7 @@ def chapter7_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["认证", "会话", "来源", "权限", "访问控制", "Brute Force", "CSRF", "最小权限", "流程"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["任务完成情况", "机制理解", "证据质量", "自评结论", "反思"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     screenshot_markers = count_regex(normalized, SCREENSHOT_MARKER_RE)
@@ -3016,8 +3082,8 @@ def chapter8_scoring(text: str, page_count: int, profile: ChapterProfile, simila
     relation_section = sections.get("relation", "") or find_context_window(normalized, ["统一框架图", "结构图", "关系图", "输入", "处理", "输出", "执行", "身份", "权限"])
     boundary_section = sections.get("boundary", "") or find_context_window(normalized, ["授权边界", "引用案例", "授权", "禁止", "脱敏"])
     risk_section = sections.get("risk", "") or find_context_window(normalized, ["互评", "反思", "反馈", "风险", "防护"])
-    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, ["AI输出审核", "人工复核", "人工审核痕迹"])
-    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, ["学生自评表", "自评表", "课程反思", "个人反思"])
+    ai_review_section = sections.get("ai_review", "") or find_context_window(normalized, AI_REVIEW_WINDOW_ANCHORS)
+    self_eval_section = sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS + ["课程反思", "个人反思"])
 
     t1_checks = [
         contains_any(task1, ["输入", "处理", "输出", "执行", "身份", "权限"]),
@@ -3083,7 +3149,7 @@ def chapter8_scoring(text: str, page_count: int, profile: ChapterProfile, simila
         ["输入", "处理", "输出", "执行", "身份", "权限", "比较", "项目", "证据", "结构"],
         profile.relation_item_score,
     )
-    self_eval_present = bool(self_eval_section) and contains_any(self_eval_section, ["自评", "反思", "互评", "课程反思"])
+    self_eval_present = detect_self_eval_trace(self_eval_section)["present"]
     ai_review_trace = detect_ai_review_trace(ai_review_section or normalized)
 
     screenshot_markers = count_regex(normalized, SCREENSHOT_MARKER_RE)
@@ -3215,7 +3281,7 @@ def generic_fallback_scoring(text: str, page_count: int, profile: ChapterProfile
     normalized = normalize_text(text)
     sections = locate_sections_generic(normalized, profile)
     ai_review_trace = detect_ai_review_trace(sections.get("ai_review", "") or normalized)
-    self_eval_present = bool(sections.get("self_eval")) and contains_any(sections.get("self_eval", ""), ["自评", "任务完成"])
+    self_eval_present = detect_self_eval_trace(sections.get("self_eval", "") or find_context_window(normalized, SELF_EVAL_WINDOW_ANCHORS))["present"]
     relation_eval = evaluate_relation_section(
         sections.get("relation", ""),
         [profile.relation_item_name] + profile.capability_goals[:4],
@@ -3296,24 +3362,22 @@ def generic_fallback_scoring(text: str, page_count: int, profile: ChapterProfile
 
 def score_text(text: str, page_count: int, profile: ChapterProfile, similarity_review: dict[str, Any] | None = None) -> tuple[int, dict[str, Any]]:
     if "第一章" in profile.chapter_name:
-        score, debug = chapter1_scoring(text, page_count, profile, similarity_review)
-    elif "第二章" in profile.chapter_name:
-        score, debug = chapter2_scoring(text, page_count, profile, similarity_review)
-    elif "第三章" in profile.chapter_name or "SQL注入" in profile.chapter_name:
-        score, debug = chapter3_scoring(text, page_count, profile, similarity_review)
-    elif "第四章" in profile.chapter_name or "XSS" in profile.chapter_name:
-        score, debug = chapter4_scoring(text, page_count, profile, similarity_review)
-    elif "第五章" in profile.chapter_name or "文件上传" in profile.chapter_name:
-        score, debug = chapter5_scoring(text, page_count, profile, similarity_review)
-    elif "第六章" in profile.chapter_name or "命令执行" in profile.chapter_name:
-        score, debug = chapter6_scoring(text, page_count, profile, similarity_review)
-    elif "第七章" in profile.chapter_name or "身份认证" in profile.chapter_name or "访问控制" in profile.chapter_name:
-        score, debug = chapter7_scoring(text, page_count, profile, similarity_review)
-    elif "第八章" in profile.chapter_name or "综合复盘" in profile.chapter_name or "项目展示" in profile.chapter_name:
-        score, debug = chapter8_scoring(text, page_count, profile, similarity_review)
-    else:
-        score, debug = generic_fallback_scoring(text, page_count, profile, similarity_review)
-    return attach_sensitive_review(score, debug, text)
+        return chapter1_scoring(text, page_count, profile, similarity_review)
+    if "第二章" in profile.chapter_name:
+        return chapter2_scoring(text, page_count, profile, similarity_review)
+    if "第三章" in profile.chapter_name or "SQL注入" in profile.chapter_name:
+        return chapter3_scoring(text, page_count, profile, similarity_review)
+    if "第四章" in profile.chapter_name or "XSS" in profile.chapter_name:
+        return chapter4_scoring(text, page_count, profile, similarity_review)
+    if "第五章" in profile.chapter_name or "文件上传" in profile.chapter_name:
+        return chapter5_scoring(text, page_count, profile, similarity_review)
+    if "第六章" in profile.chapter_name or "命令执行" in profile.chapter_name:
+        return chapter6_scoring(text, page_count, profile, similarity_review)
+    if "第七章" in profile.chapter_name or "身份认证" in profile.chapter_name or "访问控制" in profile.chapter_name:
+        return chapter7_scoring(text, page_count, profile, similarity_review)
+    if "第八章" in profile.chapter_name or "综合复盘" in profile.chapter_name or "项目展示" in profile.chapter_name:
+        return chapter8_scoring(text, page_count, profile, similarity_review)
+    return generic_fallback_scoring(text, page_count, profile, similarity_review)
 
 
 def score_pdf_file(pdf_path: Path, profile: ChapterProfile, extractor: OCRExtractor) -> SubmissionOutcome:
@@ -3358,13 +3422,6 @@ def build_missing_outcome(profile: ChapterProfile, student_id: str, student_name
         "task_requirement_map": {f"task{index}": task.semantic_requirements for index, task in enumerate(profile.tasks, start=1)},
         "content_issues": ["未提交本章作业"],
         "hard_gate_reasons": ["未提交本章作业"],
-        "sensitive_scan": {
-            "has_findings": False,
-            "mode": "review_only",
-            "finding_count": 0,
-            "findings": [],
-            "policy": "仅生成教师复核提醒，不自动封顶、不替代纪律或红线裁决。",
-        },
         "label": "需补交",
     }
     return SubmissionOutcome(
@@ -3455,7 +3512,6 @@ def score_pdf_directory(
         "max_score": max((item.score for item in results), default=0),
         "min_score": min((item.score for item in results), default=0),
         "high_similarity_count": sum(1 for item in results if item.debug.get("similarity_review", {}).get("is_highly_similar")),
-        "sensitive_review_count": sum(1 for item in results if item.debug.get("sensitive_scan", {}).get("has_findings")),
     }
     return {
         "summary": summary,
@@ -3617,57 +3673,6 @@ def build_pdf(output_path: Path, profile: ChapterProfile, class_name: str, outco
             styles["CNMeta"],
         )
     )
-    risk_rows = [
-        item for item in outcomes
-        if item.debug.get("sensitive_scan", {}).get("has_findings")
-    ]
-    if risk_rows:
-        story.append(Spacer(1, 4 * mm))
-        story.append(Paragraph("需教师复核的敏感信息扫描提醒", styles["CNTitle"]))
-        story.append(Spacer(1, 3 * mm))
-        story.append(
-            Paragraph(
-                "以下仅为自动扫描提醒，不自动封顶，不替代教师对红线、误报和纪律问题的最终判断。",
-                styles["CNMeta"],
-            )
-        )
-        risk_table_data = [
-            [
-                Paragraph("学号", styles["CN"]),
-                Paragraph("姓名", styles["CN"]),
-                Paragraph("风险类型", styles["CN"]),
-                Paragraph("复核提示", styles["CN"]),
-            ]
-        ]
-        for item in risk_rows:
-            findings = item.debug.get("sensitive_scan", {}).get("findings", [])
-            kinds = "、".join(sorted({finding.get("kind", "") for finding in findings if finding.get("kind")}))
-            reasons = "；".join(finding.get("reason", "") for finding in findings[:2])
-            risk_table_data.append(
-                [
-                    Paragraph(item.student_id or "-", styles["CN"]),
-                    Paragraph(item.student_name or "-", styles["CN"]),
-                    Paragraph(kinds or "-", styles["CN"]),
-                    Paragraph(reasons or "请人工复核。", styles["CN"]),
-                ]
-            )
-        risk_table = LongTable(risk_table_data, colWidths=[18 * mm, 24 * mm, 38 * mm, 100 * mm], repeatRows=1)
-        risk_table.setStyle(
-            TableStyle(
-                [
-                    ("FONTNAME", (0, 0), (-1, -1), "STSong-Light"),
-                    ("FONTSIZE", (0, 0), (-1, -1), 9),
-                    ("LEADING", (0, 0), (-1, -1), 12),
-                    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#fee2e2")),
-                    ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#fca5a5")),
-                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                    ("TOPPADDING", (0, 0), (-1, -1), 5),
-                    ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-                ]
-            )
-        )
-        story.append(Spacer(1, 3 * mm))
-        story.append(risk_table)
     doc.build(story)
 
 
