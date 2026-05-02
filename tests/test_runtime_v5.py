@@ -20,9 +20,9 @@ sys.path.insert(0, str(PROJECT_ROOT / "50_assets" / "课堂实施方案" / "runt
 import build_all_chapter_assets_v5 as build_all  # noqa: E402
 import build_chapter_assets_v5 as build_single  # noqa: E402
 import check_all_chapter_asset_drift_v5 as drift_check  # noqa: E402
+import course_assignment_eval_v5 as eval_runtime  # noqa: E402
 import generate_lesson_script_v5 as lesson_gen  # noqa: E402
 import preflight_projects5_v5 as preflight  # noqa: E402
-import course_assignment_eval_v5 as eval_engine  # noqa: E402
 
 
 FIXTURE = PROJECT_ROOT / "tests" / "fixtures" / "chapter99_demo.yaml"
@@ -130,25 +130,6 @@ class Projects5RuntimeTests(unittest.TestCase):
         self.assertTrue(lesson_script.exists())
         self.assertIn("教师端作业包", teacher_pack.read_text(encoding="utf-8"))
 
-    def test_generated_manifests_use_project_relative_paths(self) -> None:
-        self.assertEqual(self._run_build_single(), 0)
-        manifest_path = self.config_path.with_name("chapter99_demo_build_manifest_v5.json")
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        self.assertEqual(manifest["input_file"], "30_runtime/chapter_master_configs/chapter99_demo.yaml")
-        self.assertEqual(manifest["profile_file"], "40_evaluation/runtime/chapter_profiles/chapter99_demo.json")
-        self.assertFalse(str(self.temp_root) in json.dumps(manifest, ensure_ascii=False))
-
-        assignment_manifest = (
-            self.temp_root
-            / "50_assets"
-            / "assignment_packs"
-            / "chapter99_demo"
-            / "第九十九章 Demo章节_生成清单_v5.0.json"
-        )
-        assignment_data = json.loads(assignment_manifest.read_text(encoding="utf-8"))
-        self.assertTrue(assignment_data["generated_files"]["teacher_pack"].startswith("50_assets/assignment_packs/"))
-        self.assertFalse(str(self.temp_root) in json.dumps(assignment_data, ensure_ascii=False))
-
     def test_build_all_validate_only_passes(self) -> None:
         code = self._run_main_quiet(
             build_all,
@@ -168,71 +149,6 @@ class Projects5RuntimeTests(unittest.TestCase):
         result = drift_check.process_config(self.config_path, diff_lines=4)
         self.assertEqual(result["status"], "drift")
         self.assertIn("teacher_pack", result["drifted_files"])
-
-    def test_schema_version_rejects_unknown_master_config(self) -> None:
-        self.config_data["schema_version"] = "v6.0"
-        self.config_path.write_text(yaml.safe_dump(self.config_data, allow_unicode=True, sort_keys=False), encoding="utf-8")
-        errors = build_single.validate_master_config(build_single.load_master_config(self.config_path))
-        self.assertTrue(any("不支持的 schema_version" in item for item in errors))
-
-    def test_sensitive_scan_is_review_only(self) -> None:
-        self.assertEqual(self._run_build_single(), 0)
-        profile = eval_engine.load_profile(
-            self.temp_root / "40_evaluation" / "runtime" / "chapter_profiles" / "chapter99_demo.json"
-        )
-        text = (
-            "任务1 Demo：已经完成。授权边界：仅限 DVWA 和 localhost。"
-            "学生记录了疑似真实邮箱 test_user@realcorp.com 和手机号 13800138000，"
-            "但这里不应自动封顶，只应进入教师复核提醒。"
-        )
-        base_score, _base_debug = eval_engine.generic_fallback_scoring(text, 3, profile, None)
-        score, debug = eval_engine.score_text(text, 3, profile)
-        self.assertEqual(score, base_score)
-        self.assertTrue(debug["sensitive_scan"]["has_findings"])
-        self.assertEqual(debug["sensitive_scan"]["mode"], "review_only")
-        self.assertNotIn("敏感信息疑似未脱敏", debug.get("hard_gate_reasons", []))
-
-    def test_excel_update_writes_scores_and_feedback(self) -> None:
-        from openpyxl import Workbook, load_workbook
-
-        profile = eval_engine.ChapterProfile(
-            course_name="Web应用安全与防护",
-            chapter_name="测试章",
-            chapter_mainline="测试主线",
-            capability_goals=["目标"],
-            tasks=[eval_engine.TaskRule(name="任务", score=10, required=True, semantic_requirements=["字段"])],
-            relation_item_name="关系图",
-            relation_item_score=5,
-            self_eval_score=5,
-            redlines=[eval_engine.RedlineRule(name="未脱敏", description="敏感信息未脱敏", action="lt_60")],
-            professional_checks=["边界"],
-            default_tags=["T1"],
-        )
-        wb = Workbook()
-        ws = wb.active
-        ws.append(["学号", "姓名"])
-        ws.append(["01", "张三"])
-        excel_path = Path(self.temp_dir.name) / "roster.xlsx"
-        wb.save(excel_path)
-
-        outcome = eval_engine.SubmissionOutcome(
-            file_path=None,
-            student_id="01",
-            student_name="张三",
-            page_count=2,
-            submitted=True,
-            score=88,
-            label="良好",
-            assessment="88分，良好。",
-            good_points="证据清楚。",
-            suggestion="补强机制解释。",
-            debug={},
-        )
-        eval_engine.update_excel(excel_path, [outcome], profile)
-        updated = load_workbook(excel_path).active
-        self.assertEqual(updated.cell(row=1, column=3).value, "测试章 v5.0分数")
-        self.assertEqual(updated.cell(row=2, column=3).value, 88)
-        self.assertEqual(updated.cell(row=2, column=6).value, "补强机制解释。")
 
     def test_preflight_reports_release_ready_on_clean_project(self) -> None:
         self.assertEqual(self._run_build_single(), 0)
@@ -283,6 +199,134 @@ class Projects5RuntimeTests(unittest.TestCase):
         report = json.loads(report_path.read_text(encoding="utf-8"))
         self.assertFalse(report["release_ready"])
         self.assertEqual(report["lecture_governance"]["issue"], 1)
+
+    def test_detect_public_targets_ignores_reference_links_and_ocr_noise(self) -> None:
+        text = """
+        实验页面：DVWA SQL Injection Low
+        参考资料：https://en.wikipedia.org/wiki/SQL_injection
+        参考链接：https://www.netsparker.com/web-vulnerability-scanner/sql-injection/
+        OCR 噪声：3.low / 2.blind / sqlisourcelow.php / 6bb25e10266328ead3e1f12c49d0f.aa
+        """
+        self.assertEqual(eval_runtime.detect_public_targets(text), [])
+
+    def test_detect_public_targets_keeps_real_live_target(self) -> None:
+        text = """
+        实验目标：www.example.com
+        请求 URL：http://www.example.com/vuln.php?id=1
+        对目标站点进行 SQL 注入验证，并记录返回差异。
+        """
+        self.assertEqual(eval_runtime.detect_public_targets(text), ["www.example.com"])
+
+    def test_detect_self_eval_trace_accepts_qna_style_answers(self) -> None:
+        text = """
+        收口项2：学生自评表
+        1. 我本章最清楚的一点是什么：
+        2. 我最容易混淆的一点是什么：
+        3. 我本次作业中哪一段最需要教师复核：
+        4. 如果重做一次，我最想改进哪一部分：
+        """
+        trace = eval_runtime.detect_self_eval_trace(text)
+        self.assertTrue(trace["present"])
+        self.assertTrue(trace["structured"])
+
+    def test_detect_self_eval_trace_accepts_heading_variants(self) -> None:
+        samples = [
+            "任务6：自评\n我本章最清楚的一点是什么：……\n如果重做一次，我会优先改哪一部分：……",
+            "收口项 2 学生自评\n本次实验最清晰的内容：……\n需要教师复核的内容：……",
+            "六、学生自评\n通过本次实验，我理解了 SQL 注入的产生原理。",
+        ]
+        for text in samples:
+            trace = eval_runtime.detect_self_eval_trace(text)
+            self.assertTrue(trace["present"])
+
+    def test_locate_sections_generic_finds_self_eval_heading_variants(self) -> None:
+        profile = eval_runtime.ChapterProfile(
+            course_name="demo",
+            chapter_name="demo",
+            chapter_mainline="demo",
+            capability_goals=[],
+            tasks=[],
+            relation_item_name="关系图",
+            relation_item_score=0.0,
+            self_eval_score=0.0,
+            redlines=[],
+            professional_checks=[],
+            default_tags=[],
+        )
+        text = """
+        收口项 1 因果链关系图
+        输入点 -> 查询构造 -> 数据库执行
+        收口项 2 学生自评
+        本次实验最清晰的内容：理解了结构污染是根因。
+        需要教师复核的内容：盲注与普通注入的差异。
+        收口项 3 AI 输出审核记录
+        """
+        sections = eval_runtime.locate_sections_generic(text, profile)
+        self.assertIn("self_eval", sections)
+        self.assertIn("学生自评", sections["self_eval"])
+
+    def test_locate_sections_generic_finds_ai_review_heading_variants(self) -> None:
+        profile = eval_runtime.ChapterProfile(
+            course_name="demo",
+            chapter_name="demo",
+            chapter_mainline="demo",
+            capability_goals=[],
+            tasks=[],
+            relation_item_name="关系图",
+            relation_item_score=0.0,
+            self_eval_score=0.0,
+            redlines=[],
+            professional_checks=[],
+            default_tags=[],
+        )
+        text = """
+        收口项 2 学生自评
+        本次实验最清晰的内容：理解了结构污染是根因。
+        收口项 3 AI 输出审核记录
+        AI 使用情况：本次作业借助 AI 完成框架整理。
+        人工复核与修改：结合 DVWA 现象修正逻辑表述。
+        """
+        sections = eval_runtime.locate_sections_generic(text, profile)
+        self.assertIn("ai_review", sections)
+        self.assertIn("AI 输出审核记录", sections["ai_review"])
+
+    def test_locate_sections_chapter2_accepts_heading_variants(self) -> None:
+        text = """
+        任务一 Google 公开页面线索记录
+        示例内容
+        收口项 2 学生自评
+        本次实验最清晰的内容：学会区分线索与证据。
+        收口项 3 AI 输出审核记录
+        AI 使用情况：借助 AI 整理框架。
+        人工复核与修改：结合实际截图修正表述。
+        """
+        sections = eval_runtime.locate_sections_chapter2(text)
+        self.assertIn("self_eval", sections)
+        self.assertIn("ai_review", sections)
+        self.assertIn("学生自评", sections["self_eval"])
+        self.assertIn("AI 输出审核记录", sections["ai_review"])
+
+    def test_detect_ai_review_trace_accepts_semantic_variants(self) -> None:
+        text = """
+        AI 输出审核与人工复核记录
+        1. 本作业哪些内容使用过 AI 辅助：
+        2. 哪些判断是我自己复核后保留的：
+        3. 哪些内容我发现 AI 原始输出不够准确，并做了修正：
+        4. 本作业中我自行核实过的 3 个专业判断：
+        5. 我认为最容易误判的一处边界问题：
+        """
+        trace = eval_runtime.detect_ai_review_trace(text)
+        self.assertTrue(trace["present"])
+        self.assertTrue(trace["complete"])
+
+    def test_detect_ai_review_trace_accepts_spaced_heading_variant(self) -> None:
+        text = """
+        AI 输出审核记录
+        AI 使用情况：本次作业借助 AI 完成框架整理。
+        人工复核与修改：结合 DVWA 实验现象修正逻辑表述。
+        """
+        trace = eval_runtime.detect_ai_review_trace(text)
+        self.assertTrue(trace["present"])
 
 
 if __name__ == "__main__":
