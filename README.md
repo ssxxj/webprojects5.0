@@ -8,7 +8,9 @@ updated: 2026-04-20
 [/meta]
 
 # Web应用安全与防护 projects5.0
-
+这是《Web应用安全与防护》课程的项目化教学自动化系统。
+它支持章节资源生成、学生 PDF 作业评分、班级教学反馈报告生成。
+主要入口脚本位于 30_runtime/ 和 40_evaluation/runtime/。
 ## 0. 前 10 分钟使用指南
 
 ### Concept
