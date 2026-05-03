@@ -1,0 +1,84 @@
+{
+  "class_name": "24信安01",
+  "chapter_name": "第三章 SQL注入漏洞与防护",
+  "batch_date": "2026-05-02",
+  "summary": {
+    "class_name": "24信安01",
+    "chapter_name": "第三章 SQL注入漏洞与防护",
+    "class_size": 26,
+    "submitted_count": 26,
+    "missing_count": 0,
+    "avg_score_all": 85.58,
+    "avg_score_submitted": 85.58
+  },
+  "avg_dimensions": {
+    "task_completion": "17.08/20",
+    "evidence_quality": "13.03/18",
+    "mechanism_score": "19.38/20",
+    "relation_score": "1.85/3.0",
+    "risk_protection": "20.00/22（风险 10.46/12；防护 9.54/10）",
+    "expression_score": "7.31/10",
+    "professional_score": "8.77/10"
+  },
+  "high_frequency_tags": [
+    {
+      "tag": "R2",
+      "description": "关系链不足",
+      "count": 20
+    },
+    {
+      "tag": "E1",
+      "description": "证据不清晰",
+      "count": 11
+    },
+    {
+      "tag": "B1",
+      "description": "授权边界表达不足",
+      "count": 10
+    },
+    {
+      "tag": "T2",
+      "description": "任务部分完成",
+      "count": 4
+    },
+    {
+      "tag": "E2",
+      "description": "证据与结论不对应",
+      "count": 1
+    }
+  ],
+  "risk_counts": {
+    "desensitize": 0,
+    "boundary": 0,
+    "similarity": 0,
+    "other": 0
+  },
+  "positive_samples": [
+    {
+      "student_id": "04",
+      "student_name": "古月淼易SQL注入漏洞与防护",
+      "why": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。"
+    },
+    {
+      "student_id": "05",
+      "student_name": "郭养双SQL注入漏洞与防护",
+      "why": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。"
+    },
+    {
+      "student_id": "11",
+      "student_name": "秦媛媛SQL注入漏洞与防护",
+      "why": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。"
+    }
+  ],
+  "suggested_actions": [
+    "下轮课增加一次“关系图/关系表示范讲评”，重点演示如何把现象、机制、控制点和下一步连成链。",
+    "补讲“证据 -> 结论”的对应规则，示范如何标关键字段、如何避免用抽象结论代替技术证据。",
+    "在学生版说明单首页强化授权边界、脱敏和禁止动作提示，并在课上明确展示正反例。"
+  ],
+  "suggested_system_files": [
+    "`40_evaluation/学生版作业说明单模板_v5.0.md`：强化关系图/关系表正例与反例。",
+    "`40_evaluation/教师验收表模板_v5.0.md`：把关系图三档评分说明前置。",
+    "`40_evaluation/第11步作业设计模板_v5.0.md`：增加“关键字段示例”和“证据到结论映射”字段。",
+    "`50_assets/assignment_packs/*/学生版作业说明单_v5.0.md`：把授权边界块放到第一页并高亮。"
+  ]
+}
