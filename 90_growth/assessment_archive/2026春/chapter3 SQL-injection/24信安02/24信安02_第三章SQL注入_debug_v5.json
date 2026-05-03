@@ -1,0 +1,2513 @@
+{
+  "summary": {
+    "profile": {
+      "course_name": "Web应用安全与防护",
+      "chapter_name": "第三章 SQL注入漏洞与防护",
+      "chapter_mainline": "从输入影响查询，到结构分离防护",
+      "capability_goal_count": 5,
+      "task_count": 4,
+      "task_score_total": 15.0,
+      "relation_item_name": "SQL注入因果链/防护关系图",
+      "relation_item_score": 3.0,
+      "self_eval_score": 2.0,
+      "redline_count": 4,
+      "default_tag_count": 9
+    },
+    "file_count": 25,
+    "submitted_count": 25,
+    "missing_count": 0,
+    "avg_score": 87.88,
+    "max_score": 98,
+    "min_score": 58,
+    "high_similarity_count": 0
+  },
+  "results": [
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/02陈梦娇SQL注入漏洞与防护.pdf",
+      "student_id": "02",
+      "student_name": "陈梦娇SQL注入漏洞与防护",
+      "page_count": 6,
+      "submitted": true,
+      "score": 82,
+      "label": "良好",
+      "assessment": "82分，良好；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。 增加清晰截图并圈出关键字段，提高证据可定位性。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.0,
+        "evidence_quality": 10.57,
+        "mechanism_score": 16.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 82.08,
+        "final_score": 82,
+        "page_count": 6,
+        "text_length": 5232,
+        "relation_status": "partial",
+        "relation_signal_hits": 7,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 3.6,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 0,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "en.wikipedia.org",
+          "www.netsparker.com",
+          "bobby-tables.com",
+          "web.security",
+          "lowasp.org"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/03郭养凡SQL注入漏洞与防护.pdf",
+      "student_id": "03",
+      "student_name": "郭养凡SQL注入漏洞与防护",
+      "page_count": 23,
+      "submitted": true,
+      "score": 96,
+      "label": "优秀",
+      "assessment": "96分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.5,
+        "evidence_quality": 18.0,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 96.0,
+        "final_score": 96,
+        "page_count": 23,
+        "text_length": 11451,
+        "relation_status": "partial",
+        "relation_signal_hits": 6,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 18,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "bobby-tables.com",
+          "www.netsparker.com",
+          "bobby-tables.com",
+          "www.netsparker.com",
+          "bobby-tables.com",
+          "www.netsparker.com",
+          "bobby-tables.com",
+          "lowasp.orgwww"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/06黄思颖SQL注入漏洞与防护.pdf",
+      "student_id": "06",
+      "student_name": "黄思颖SQL注入漏洞与防护",
+      "page_count": 4,
+      "submitted": true,
+      "score": 80,
+      "label": "良好",
+      "assessment": "80分，良好；任务完成度较高、机制解释较到位。",
+      "good_points": "主体任务完成度较高；机制解释较到位。",
+      "suggestion": "补强“DVWA SQL Injection Low 现象记录”，重点补齐：实验目标或页面。 SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.1,
+        "evidence_quality": 11.78,
+        "mechanism_score": 20.0,
+        "risk_score": 8.0,
+        "protection_score": 10.0,
+        "expression_score": 6.5,
+        "professional_score": 7.3,
+        "base_score": 79.67,
+        "final_score": 80,
+        "page_count": 4,
+        "text_length": 2146,
+        "relation_status": "partial",
+        "relation_signal_hits": 6,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 1.6,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 2,
+        "content_issues": [
+          "DVWA SQL Injection Low 现象记录内容不全",
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [
+          {
+            "item": "授权边界与风险表达不足",
+            "why": "SQL 注入实验必须限定在 DVWA 或教师授权环境，否则会直接越过教学边界。",
+            "fix": "补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。"
+          }
+        ],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/07梁淑岚SQL注入漏洞与防护.pdf",
+      "student_id": "07",
+      "student_name": "梁淑岚SQL注入漏洞与防护",
+      "page_count": 8,
+      "submitted": true,
+      "score": 92,
+      "label": "优秀",
+      "assessment": "92分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.4,
+        "evidence_quality": 14.07,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 91.97,
+        "final_score": 92,
+        "page_count": 8,
+        "text_length": 9151,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 2,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "localhost"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/08 刘冰倩 SQL注入漏洞与防护.pdf",
+      "student_id": "08",
+      "student_name": "刘冰倩SQL注入漏洞与防护",
+      "page_count": 4,
+      "submitted": true,
+      "score": 78,
+      "label": "中等",
+      "assessment": "78分，中等；任务完成度较高、机制解释较到位。",
+      "good_points": "主体任务完成度较高；机制解释较到位。",
+      "suggestion": "修正专业判断：授权边界与风险表达不足；建议改为“补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。” 增加清晰截图并圈出关键字段，提高证据可定位性。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 19.2,
+        "evidence_quality": 10.9,
+        "mechanism_score": 16.0,
+        "risk_score": 8.0,
+        "protection_score": 10.0,
+        "expression_score": 6.5,
+        "professional_score": 7.3,
+        "base_score": 77.9,
+        "final_score": 78,
+        "page_count": 4,
+        "text_length": 1884,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 3.2,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 0,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [
+          {
+            "item": "授权边界与风险表达不足",
+            "why": "SQL 注入实验必须限定在 DVWA 或教师授权环境，否则会直接越过教学边界。",
+            "fix": "补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。"
+          }
+        ],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "中等"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/09陆海婷SQL注入漏洞与防护.pdf",
+      "student_id": "09",
+      "student_name": "陆海婷SQL注入漏洞与防护",
+      "page_count": 9,
+      "submitted": true,
+      "score": 91,
+      "label": "优秀",
+      "assessment": "91分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.9,
+        "evidence_quality": 14.97,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 91.38,
+        "final_score": 91,
+        "page_count": 9,
+        "text_length": 5909,
+        "relation_status": "partial",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 8,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/10邵靖雅SQL注入漏洞与防护.pdf",
+      "student_id": "10",
+      "student_name": "邵靖雅SQL注入漏洞与防护",
+      "page_count": 13,
+      "submitted": true,
+      "score": 98,
+      "label": "优秀",
+      "assessment": "98分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 20.0,
+        "evidence_quality": 18.0,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 97.5,
+        "final_score": 98,
+        "page_count": 13,
+        "text_length": 10340,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 10,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/11唐雨欣SQL注入漏洞与防护.pdf",
+      "student_id": "11",
+      "student_name": "唐雨欣SQL注入漏洞与防护",
+      "page_count": 6,
+      "submitted": true,
+      "score": 95,
+      "label": "优秀",
+      "assessment": "95分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 19.2,
+        "evidence_quality": 16.4,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 95.1,
+        "final_score": 95,
+        "page_count": 6,
+        "text_length": 3968,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 3.2,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 9,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "192.168.233.130:8081",
+          "3.low",
+          "1.sql",
+          "5.orm"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/13王甜甜SQL注入漏洞与防护.pdf",
+      "student_id": "13",
+      "student_name": "王甜甜SQL注入漏洞与防护",
+      "page_count": 8,
+      "submitted": true,
+      "score": 93,
+      "label": "优秀",
+      "assessment": "93分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 20.0,
+        "evidence_quality": 13.3,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 92.8,
+        "final_score": 93,
+        "page_count": 8,
+        "text_length": 5192,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 1,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "dwaivulnerabilitiesqlisourcelow.php",
+          "dwwaivulnerabilitieslijindex.php",
+          "sqlilsourcellow.php",
+          "2.blind"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/14武秋辰SQL注入漏洞与防护.pdf",
+      "student_id": "14",
+      "student_name": "武秋辰SQL注入漏洞与防护",
+      "page_count": 6,
+      "submitted": true,
+      "score": 85,
+      "label": "良好",
+      "assessment": "85分，良好；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "补写学生自评表，说明任务完成情况、机制理解和最需要改进的一项。 补写 AI输出审核与人工复核记录，明确是否使用 AI、保留与删改内容、已自行核实的专业判断。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.4,
+        "evidence_quality": 10.57,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 8.5,
+        "base_score": 84.97,
+        "final_score": 85,
+        "page_count": 6,
+        "text_length": 2621,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 3,
+        "self_eval_present": false,
+        "ai_review_present": false,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 0,
+        "content_issues": [
+          "缺少学生自评表",
+          "缺少AI输出审核与人工复核记录"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "未明显看到 AI输出审核与人工复核记录，无法判断是否审核过 AI 输出。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/15颜航SQL注入漏洞与防护.pdf",
+      "student_id": "15",
+      "student_name": "颜航SQL注入漏洞与防护",
+      "page_count": 9,
+      "submitted": true,
+      "score": 95,
+      "label": "优秀",
+      "assessment": "95分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.5,
+        "evidence_quality": 17.7,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 9.3,
+        "base_score": 95.0,
+        "final_score": 95,
+        "page_count": 9,
+        "text_length": 7606,
+        "relation_status": "partial",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 11,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "bobby-tables.com",
+          "en.wikipedia.orghwikilsql_jinjection",
+          "www.netsparker.com",
+          "bobby-tables.coml",
+          "llen.wikipedia.org",
+          "lowasp.org",
+          "index.php",
+          "en.wikipedia"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/16杨若彤SQL注入漏洞与防护.pdf",
+      "student_id": "16",
+      "student_name": "杨若彤SQL注入漏洞与防护",
+      "page_count": 16,
+      "submitted": true,
+      "score": 87,
+      "label": "良好",
+      "assessment": "87分，良好；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。 增加清晰截图并圈出关键字段，提高证据可定位性。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.9,
+        "evidence_quality": 11.47,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 9.3,
+        "base_score": 87.17,
+        "final_score": 87,
+        "page_count": 16,
+        "text_length": 7438,
+        "relation_status": "partial",
+        "relation_signal_hits": 7,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 0,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/17郁佳怡 SQL注入漏洞与防护.pdf",
+      "student_id": "17",
+      "student_name": "郁佳怡SQL注入漏洞与防护",
+      "page_count": 11,
+      "submitted": true,
+      "score": 92,
+      "label": "优秀",
+      "assessment": "92分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.4,
+        "evidence_quality": 14.47,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 92.38,
+        "final_score": 92,
+        "page_count": 11,
+        "text_length": 7409,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 4,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/18张可奕SQL注入漏洞与防护.pdf",
+      "student_id": "18",
+      "student_name": "张可奕SQL注入漏洞与防护",
+      "page_count": 5,
+      "submitted": true,
+      "score": 81,
+      "label": "良好",
+      "assessment": "81分，良好；机制解释较到位、专业判断较稳妥。",
+      "good_points": "证据基本清楚；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "补强“DVWA SQL Injection Low 现象记录”，重点补齐：实验目标或页面。 SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 14.7,
+        "evidence_quality": 12.68,
+        "mechanism_score": 16.0,
+        "risk_score": 12.0,
+        "protection_score": 8.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 80.88,
+        "final_score": 81,
+        "page_count": 5,
+        "text_length": 3678,
+        "relation_status": "partial",
+        "relation_signal_hits": 0,
+        "relation_relation_hits": 1,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 2.4,
+          "task2": 0.8,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 3,
+        "content_issues": [
+          "DVWA SQL Injection Low 现象记录内容不全",
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "len.wikipedia.org",
+          "www.netsparker.com",
+          "bobby-tables.coml",
+          "lowasp.org",
+          "ow.php",
+          "low.php",
+          "index.php"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/19朱梁薇SQL注入漏洞与防护.pdf",
+      "student_id": "19",
+      "student_name": "朱梁薇SQL注入漏洞与防护",
+      "page_count": 5,
+      "submitted": true,
+      "score": 80,
+      "label": "良好",
+      "assessment": "80分，良好；任务完成度较高、机制解释较到位。",
+      "good_points": "主体任务完成度较高；机制解释较到位。",
+      "suggestion": "修正专业判断：授权边界与风险表达不足；建议改为“补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。” 增加清晰截图并圈出关键字段，提高证据可定位性。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 19.2,
+        "evidence_quality": 11.9,
+        "mechanism_score": 16.0,
+        "risk_score": 8.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 7.3,
+        "base_score": 79.9,
+        "final_score": 80,
+        "page_count": 5,
+        "text_length": 4099,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 3.2,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 1,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "index.php",
+          "itisuptotheuserhowtheyapproachdwa.eitherbyworkingthrougheverymoduleatafixedleveor",
+          "highestleveltheycanbeforemovingontothenextone.there",
+          "intentional.you",
+          "livewebservers.lfyourwebserveriscompromisedviaan",
+          "swebapplications.howeverthere",
+          "otherissueswithwebapplications.shouldyou"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [
+          {
+            "item": "授权边界与风险表达不足",
+            "why": "SQL 注入实验必须限定在 DVWA 或教师授权环境，否则会直接越过教学边界。",
+            "fix": "补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。"
+          }
+        ],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/20朱娅媗SQL 注入漏洞与防护.pdf",
+      "student_id": "20",
+      "student_name": "朱娅媗SQL注入漏洞与防护",
+      "page_count": 4,
+      "submitted": true,
+      "score": 58,
+      "label": "待补救",
+      "assessment": "58分，待补救；基本完成本章作业；仍需完善：DVWA SQL Injection Low 现象记录内容不全。",
+      "good_points": "证据基本清楚。",
+      "suggestion": "补强“DVWA SQL Injection Low 现象记录”，重点补齐：实验目标或页面。 补强“SQL注入防护清单与解释”，重点补齐：参数化查询。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 14.0,
+        "evidence_quality": 12.55,
+        "mechanism_score": 12.0,
+        "risk_score": 4.0,
+        "protection_score": 3.0,
+        "expression_score": 7.5,
+        "professional_score": 4.5,
+        "base_score": 57.55,
+        "final_score": 58,
+        "page_count": 4,
+        "text_length": 3100,
+        "relation_status": "complete",
+        "relation_signal_hits": 7,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": false,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 2.4,
+          "task2": 1.6,
+          "task3": 3.6,
+          "task4": 1.4
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 4,
+        "content_issues": [
+          "DVWA SQL Injection Low 现象记录内容不全",
+          "SQL注入防护清单与解释内容不全",
+          "缺少AI输出审核与人工复核记录",
+          "专业校验与责任意识不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "未明显看到 AI输出审核与人工复核记录，无法判断是否审核过 AI 输出。"
+        ],
+        "professional_errors": [
+          {
+            "item": "盲注与普通 SQL 注入关系说明不足",
+            "why": "第三章不能把盲注当成完全不同的问题，而应理解为同一根因在证据层变弱后的表现。",
+            "fix": "补写：盲注与普通 SQL 注入共享同一根因，只是观察证据从直接回显变成行为差异或真假反馈。"
+          },
+          {
+            "item": "授权边界与风险表达不足",
+            "why": "SQL 注入实验必须限定在 DVWA 或教师授权环境，否则会直接越过教学边界。",
+            "fix": "补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。"
+          }
+        ],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "待补救"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/21 曹栋  SQL注入漏洞与防护——实验分析报告(1).pdf",
+      "student_id": "21",
+      "student_name": "曹栋SQL注入漏洞与防护——实验分析报告(1)",
+      "page_count": 4,
+      "submitted": true,
+      "score": 93,
+      "label": "优秀",
+      "assessment": "93分，优秀；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 19.2,
+        "evidence_quality": 12.8,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 10.0,
+        "professional_score": 9.3,
+        "base_score": 93.3,
+        "final_score": 93,
+        "page_count": 4,
+        "text_length": 2689,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 3.2,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 1,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/22何其轩SQL注入漏洞与防护.pdf",
+      "student_id": "22",
+      "student_name": "何其轩SQL注入漏洞与防护",
+      "page_count": 9,
+      "submitted": true,
+      "score": 92,
+      "label": "优秀",
+      "assessment": "92分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "证据基本清楚；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 17.8,
+        "evidence_quality": 14.97,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 9.3,
+        "base_score": 91.58,
+        "final_score": 92,
+        "page_count": 9,
+        "text_length": 5120,
+        "relation_status": "complete",
+        "relation_signal_hits": 7,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 2.4,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 8,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/23何子旭 SQL注入漏洞与防护.pdf",
+      "student_id": "23",
+      "student_name": "何子旭SQL注入漏洞与防护",
+      "page_count": 13,
+      "submitted": true,
+      "score": 84,
+      "label": "良好",
+      "assessment": "84分，良好；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。 修正专业判断：授权边界与风险表达不足；建议改为“补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。”",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.5,
+        "evidence_quality": 15.5,
+        "mechanism_score": 16.0,
+        "risk_score": 8.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 8.0,
+        "base_score": 83.5,
+        "final_score": 84,
+        "page_count": 13,
+        "text_length": 8792,
+        "relation_status": "partial",
+        "relation_signal_hits": 4,
+        "relation_relation_hits": 1,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 2,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "www.netsparker.com",
+          "bobby-tables.com",
+          "en.wikipedia.org",
+          "www.netsparker.com",
+          "owasp.org",
+          "bobby-tables.com",
+          "youcansetthesecurityleveltolowmediumhighorimpossible.thesecuritylevelchangesthevulnerability",
+          "1.low"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "文中存在专业判断与证据绑定不足或概念层次混淆，疑似提交前未做充分审核。"
+        ],
+        "professional_errors": [
+          {
+            "item": "授权边界与风险表达不足",
+            "why": "SQL 注入实验必须限定在 DVWA 或教师授权环境，否则会直接越过教学边界。",
+            "fix": "补写：实验仅限 DVWA、本机或教师授权环境，禁止对真实未授权站点做验证。"
+          }
+        ],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/24李文SQL注入漏洞与防护.pdf",
+      "student_id": "24",
+      "student_name": "李文SQL注入漏洞与防护",
+      "page_count": 15,
+      "submitted": true,
+      "score": 95,
+      "label": "优秀",
+      "assessment": "95分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "SQL注入因果链/防护关系图 已提交，但关系表达仍偏弱，建议补出“输入/处理/结果/控制点/下一步”链条。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.5,
+        "evidence_quality": 18.0,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 9.3,
+        "base_score": 95.3,
+        "final_score": 95,
+        "page_count": 15,
+        "text_length": 7429,
+        "relation_status": "partial",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 2,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 33,
+        "content_issues": [
+          "SQL注入因果链/防护关系图已提交但关系表达不足"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "AI输出审核与人工复核记录已出现，但删改、核实或边界说明仍不完整。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/25林则宇SQL注入漏洞与防护.pdf",
+      "student_id": "25",
+      "student_name": "林则宇SQL注入漏洞与防护",
+      "page_count": 8,
+      "submitted": true,
+      "score": 86,
+      "label": "良好",
+      "assessment": "86分，良好；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；机制解释较到位；专业结论与边界表达较稳妥。",
+      "suggestion": "补写学生自评表，说明任务完成情况、机制理解和最需要改进的一项。 补写 AI输出审核与人工复核记录，明确是否使用 AI、保留与删改内容、已自行核实的专业判断。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.4,
+        "evidence_quality": 11.18,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 8.5,
+        "base_score": 85.58,
+        "final_score": 86,
+        "page_count": 8,
+        "text_length": 3180,
+        "relation_status": "complete",
+        "relation_signal_hits": 8,
+        "relation_relation_hits": 3,
+        "self_eval_present": false,
+        "ai_review_present": false,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 0,
+        "content_issues": [
+          "缺少学生自评表",
+          "缺少AI输出审核与人工复核记录"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "未明显看到 AI输出审核与人工复核记录，无法判断是否审核过 AI 输出。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/27孙硕SQL注入漏洞与防护.pdf",
+      "student_id": "27",
+      "student_name": "孙硕SQL注入漏洞与防护",
+      "page_count": 8,
+      "submitted": true,
+      "score": 88,
+      "label": "良好",
+      "assessment": "88分，良好；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "补写学生自评表，说明任务完成情况、机制理解和最需要改进的一项。 补写 AI输出审核与人工复核记录，明确是否使用 AI、保留与删改内容、已自行核实的专业判断。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 16.4,
+        "evidence_quality": 14.07,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 8.5,
+        "base_score": 88.47,
+        "final_score": 88,
+        "page_count": 8,
+        "text_length": 7086,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 4,
+        "self_eval_present": false,
+        "ai_review_present": false,
+        "ai_review_complete": false,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 2,
+        "content_issues": [
+          "缺少学生自评表",
+          "缺少AI输出审核与人工复核记录"
+        ],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "localhost"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [
+          "未明显看到 AI输出审核与人工复核记录，无法判断是否审核过 AI 输出。"
+        ],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "良好"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/28王志伟SQL注入漏洞与防护.pdf",
+      "student_id": "28",
+      "student_name": "王志伟SQL注入漏洞与防护",
+      "page_count": 9,
+      "submitted": true,
+      "score": 90,
+      "label": "优秀",
+      "assessment": "90分，优秀；任务完成度较高、机制解释较到位、专业判断较稳妥。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.4,
+        "evidence_quality": 12.17,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 90.07,
+        "final_score": 90,
+        "page_count": 9,
+        "text_length": 7270,
+        "relation_status": "complete",
+        "relation_signal_hits": 7,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 1,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "node.js"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/29吴晓豪SQL注入漏洞与防护.pdf",
+      "student_id": "29",
+      "student_name": "吴晓豪SQL注入漏洞与防护",
+      "page_count": 7,
+      "submitted": true,
+      "score": 91,
+      "label": "优秀",
+      "assessment": "91分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；证据基本清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 18.4,
+        "evidence_quality": 13.47,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 91.38,
+        "final_score": 91,
+        "page_count": 7,
+        "text_length": 5177,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 4,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 2.4,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 3,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [
+          "3.low"
+        ],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    },
+    {
+      "file_path": "/Users/shen/教学/web应用安全与防护projects5.0/24信安02-第三章 SQL注入漏洞与防护——实验分析报告/30杨志宇SQL注入漏洞与防护.pdf",
+      "student_id": "30",
+      "student_name": "杨志宇SQL注入漏洞与防护",
+      "page_count": 24,
+      "submitted": true,
+      "score": 95,
+      "label": "优秀",
+      "assessment": "95分，优秀；任务完成度较高、证据较清楚、机制解释较到位。",
+      "good_points": "主体任务完成度较高；截图与关键字段定位较清楚；机制解释较到位。",
+      "suggestion": "进一步压缩抽象表述，把结论与具体截图、字段、URL、参数或端口一一对应。",
+      "debug": {
+        "rubric_used": "projects5_v5_generic_chapter03",
+        "task_completion": 19.2,
+        "evidence_quality": 16.5,
+        "mechanism_score": 20.0,
+        "risk_score": 12.0,
+        "protection_score": 10.0,
+        "expression_score": 7.5,
+        "professional_score": 10.0,
+        "base_score": 95.2,
+        "final_score": 95,
+        "page_count": 24,
+        "text_length": 11215,
+        "relation_status": "complete",
+        "relation_signal_hits": 9,
+        "relation_relation_hits": 3,
+        "self_eval_present": true,
+        "ai_review_present": true,
+        "ai_review_complete": true,
+        "task_scores": {
+          "task1": 3.0,
+          "task2": 3.2,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_max_scores": {
+          "task1": 3.0,
+          "task2": 4.0,
+          "task3": 4.5,
+          "task4": 3.5
+        },
+        "task_name_map": {
+          "task1": "数据库与查询条件基础说明",
+          "task2": "DVWA SQL Injection Low 现象记录",
+          "task3": "机制分析与差异比较",
+          "task4": "SQL注入防护清单与解释"
+        },
+        "task_requirement_map": {
+          "task1": [
+            "输入条件—数据库查询—返回结果",
+            "为什么页面功能与数据库有关",
+            "输入如何进入查询条件"
+          ],
+          "task2": [
+            "实验目标或页面",
+            "普通输入与异常输入对比",
+            "返回差异",
+            "为什么不像正常查询变化"
+          ],
+          "task3": [
+            "输入—拼接—解析—执行—回显或行为差异链条",
+            "Low与Medium差异",
+            "普通SQL注入与盲注差异",
+            "根因是结构被污染而不是字符本身"
+          ],
+          "task4": [
+            "参数化查询",
+            "输入校验",
+            "错误处理",
+            "最小权限",
+            "各措施控制的是根因、暴露面还是后果范围"
+          ]
+        },
+        "screenshot_markers": 4,
+        "content_issues": [],
+        "hard_gate_reasons": [],
+        "public_targets": [],
+        "domains": [],
+        "ai_like_paragraphs": [],
+        "unchecked_traces": [],
+        "professional_errors": [],
+        "absolute_hits": [],
+        "similarity_review": {
+          "is_suspected_similar": false,
+          "is_highly_similar": false,
+          "max_full_ratio": 0.0,
+          "max_longest_block_ratio": 0.0,
+          "matched_peers": []
+        },
+        "label": "优秀"
+      }
+    }
+  ]
+}
